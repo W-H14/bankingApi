@@ -1,4 +1,9 @@
 package com.thecoalition.bankingApi.model;
 
-public class Deposit {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+
+public class Deposit implements Transaction {
+
 }
