@@ -1,4 +1,4 @@
 package com.thecoalition.bankingApi.model;
 
-public class Placeholder {
+public class Account {
 }
