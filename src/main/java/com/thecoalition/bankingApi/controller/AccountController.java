@@ -23,8 +23,7 @@ public class AccountController {
     private AccountRepository accountRepo;
 
     @Autowired
-    private  AccountService accountService;
-
+    private AccountService accountService;
 
 
     public void verifyCostumer(Long CostumerId) throws ResourceNotFoundException {
@@ -35,12 +34,13 @@ public class AccountController {
     }
 
 
-
     @RequestMapping(value = "/costumers/{costumerId}/accounts", method = RequestMethod.POST)
-    public ResponseEntity<?> createAccount (@PathVariable Long costumerId, @RequestBody Account account) {
+    public ResponseEntity<?> createAccount(@PathVariable Long costumerId, @RequestBody Account account) {
         verifyCostumer(costumerId);
         accountService.createAccount(costumerId, account);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(account.getAccountId()).toUri());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+}
