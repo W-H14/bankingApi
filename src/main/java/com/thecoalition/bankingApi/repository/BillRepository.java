@@ -1,4 +1,4 @@
 package com.thecoalition.bankingApi.repository;
 
-public class BillRepository {
+public interface BillRepository {
 }
