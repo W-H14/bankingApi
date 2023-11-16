@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
+
 public class BillController {
     @Autowired
     private BillService billService;
@@ -26,7 +28,10 @@ public class BillController {
         bill = billService.createBill(bill);
 
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(bill.getId().));
+        URI newBillUri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}").buildAndExpand(bill.getId()).toUri();
+        responseHeaders.setLocation(newBillUri);
         return new ResponseEntity<>(null,responseHeaders,HttpStatus.CREATED);
     }
     //    @PutMapping(value = "bills/{billId}") //update A specific existing bill
