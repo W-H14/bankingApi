@@ -1,6 +1,7 @@
 package com.thecoalition.bankingApi.controller;
 
 import com.thecoalition.bankingApi.model.Customer;
+import com.thecoalition.bankingApi.repository.CustomerRespository;
 import com.thecoalition.bankingApi.service.CustomerService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class CustomerController {
     @Autowired
 
     private CustomerService customerService;
+
+   @Autowired
+    CustomerRespository customerRespository;
 
     @RequestMapping(value="/customers", method= RequestMethod.GET)
 
@@ -66,4 +70,10 @@ public class CustomerController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/accounts/{accountId}customer")
+    public Iterable<Customer> getCustomerByAccountId(@PathVariable Long accountId){
+        return customerService.getCustomerByAccountId(accountId);
+    }
+
 }
