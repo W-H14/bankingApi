@@ -10,11 +10,11 @@ import javax.validation.constraints.NotEmpty;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ACCOUNT_ID")
     private long accountId;
 
-
+    @Enumerated(EnumType.STRING)
     @Column(name = "ACCOUNT_TYPE")
     @NotEmpty
     private Type type;
