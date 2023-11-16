@@ -1,2 +1,4 @@
-package com.thecoalition.bankingApi.error;public class test {
+package com.thecoalition.bankingApi.error;
+
+public class test {
 }

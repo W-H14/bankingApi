@@ -1,2 +1,4 @@
-package com.thecoalition.bankingApi.handler;public class test {
+package com.thecoalition.bankingApi.handler;
+
+public class test {
 }
