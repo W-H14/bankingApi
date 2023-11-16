@@ -10,7 +10,7 @@ import javax.validation.constraints.NotEmpty;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ACCOUNT_ID")
     private long accountId;
 
