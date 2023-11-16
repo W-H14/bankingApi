@@ -85,6 +85,9 @@ private String description;
         this.description = description;
     }
 
+    public Withdrawal() {
+    }
+
     @Override
     public String toString() {
         return "Withdrawal{" +

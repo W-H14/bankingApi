@@ -1,4 +1,8 @@
 package com.thecoalition.bankingApi.repository;
 
-public interface WithdrawalRepository {
+import org.springframework.data.repository.CrudRepository;
+
+import java.util.Optional;
+
+public interface WithdrawalRepository extends CrudRepository {
 }
