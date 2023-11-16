@@ -21,14 +21,14 @@ public class BillController {
 //
 //    @GetMapping(value = "customers/{customerId}/bills")// get bill by id
 //
-    @PostMapping(value = "/accounts/{accountId}/bills")// create a bill
-    public ResponseEntity<?> createBill(@PathVariable Long pollId, @RequestBody Bill bill){
-        bill = billService.createBill(bill);
-
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(bill.getId().));
-        return new ResponseEntity<>(null,responseHeaders,HttpStatus.CREATED);
-    }
+//    @PostMapping(value = "/accounts/{accountId}/bills")// create a bill
+//    public ResponseEntity<?> createBill(@PathVariable Long pollId, @RequestBody Bill bill){
+//        bill = billService.createBill(bill);
+//
+//        HttpHeaders responseHeaders = new HttpHeaders();
+//        responseHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(bill.getId().));
+//        return new ResponseEntity<>(null,responseHeaders,HttpStatus.CREATED);
+//    }
     //    @PutMapping(value = "bills/{billId}") //update A specific existing bill
 //
     @DeleteMapping(value = "/bills/{billId}")// delete a specific existing bill
