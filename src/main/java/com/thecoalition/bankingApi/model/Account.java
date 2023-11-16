@@ -14,7 +14,7 @@ public class Account {
     @Column(name = "ACCOUNT_ID")
     private long accountId;
 
-
+    @Enumerated(EnumType.STRING)
     @Column(name = "ACCOUNT_TYPE")
     @NotEmpty
     private Type type;

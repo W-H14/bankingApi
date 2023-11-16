@@ -12,12 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.List;
 import java.util.Optional;
 
 public class AccountController {
@@ -55,5 +53,40 @@ public class AccountController {
         accountService.deleteAccount(accountId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    //endpoint to get all accounts
+    @GetMapping("/accounts")
+    public ResponseEntity<Iterable<Account>> getAllAccounts(){
+        Iterable<Account> accounts = accountRepo.findAll();
+        return new ResponseEntity<>(accounts, HttpStatus.OK);
+    }
+    //endpoint for an account by Id
+    @GetMapping("/accounts/{accountId}")
+    public ResponseEntity<Account> getAccountById(@PathVariable Long accountId){
+      Optional<Account> account = accountRepo.findById(accountId);
+      return account.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+    //get all accounts for a customer
+    @GetMapping("/customers/{customerId}/accounts")
+    public ResponseEntity<Iterable<Account>> getAllAccountsForCustomer(@PathVariable Long customerId){
+        verifyCostumer(customerId);
+
+        Iterable<Account> accounts = accountRepo.findByCustomerId(customerId);
+
+        return new ResponseEntity<>(accounts, HttpStatus.OK);
+    }
+
+    //update an existing account
+    @PutMapping("{accountId}")
+    public ResponseEntity<Account> updateAccount(@PathVariable Long accountId, @RequestBody Account updatedAccount){
+        try{
+            Account updated = accountService.updateAccount(updatedAccount, accountId);
+            return new ResponseEntity<>(updated, HttpStatus.OK);
+
+        }catch(ResourceNotFoundException exception){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
 
 }
