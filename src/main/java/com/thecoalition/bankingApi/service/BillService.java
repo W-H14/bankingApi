@@ -1,4 +1,4 @@
-package com.thecoalition.bankingApi.service;
+git package com.thecoalition.bankingApi.service;
 
 public class BillService {
 }
