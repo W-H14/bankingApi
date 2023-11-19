@@ -3,6 +3,7 @@ package com.thecoalition.bankingApi.controller;
 import com.thecoalition.bankingApi.model.Account;
 import com.thecoalition.bankingApi.model.Customer;
 import com.thecoalition.bankingApi.repository.AccountRepository;
+import com.thecoalition.bankingApi.response.AccountResponse;
 import com.thecoalition.bankingApi.service.AccountService;
 
 
@@ -29,62 +30,64 @@ public class AccountController {
     @Autowired
     private CustomerService customerService;
 
-
-    public void verifyCostumer(Long CostumerId) throws ResourceNotFoundException {
-        Optional<Customer> costumer = customerService.getCustomerById(CostumerId);
-        if (costumer.isEmpty()) {
-            throw new ResourceNotFoundException("Costumer with id " + CostumerId + " not found");
-        }
-    }
+    @Autowired
+    private AccountResponse accountResponse;
 
 
-    @RequestMapping(value = "/costumers/{costumerId}/accounts", method = RequestMethod.POST)
+    /**
+     * Create a new account for a customer
+     * @param costumerId
+     * @param account
+     * @return
+     */
+    @PostMapping(value = "/costumers/{costumerId}/accounts")
     public ResponseEntity<?> createAccount(@PathVariable Long costumerId, @RequestBody Account account) {
-        verifyCostumer(costumerId);
-        accountService.createAccount(costumerId, account);
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(account.getAccountId()).toUri());
-        return new ResponseEntity<>(HttpStatus.CREATED);
+       return new ResponseEntity<> (accountResponse.createAccount(costumerId, account), HttpStatus.CREATED);
+
     }
 
 
-    @RequestMapping(value = "/accounts//{accountId}", method = RequestMethod.DELETE)
+    /**
+     * Delete an account
+     * @param accountId
+     * @return
+     */
+    @DeleteMapping(value = "/accounts/{accountId}")
     public ResponseEntity<?> deleteAccount(@PathVariable Long accountId){
-        accountService.deleteAccount(accountId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+         return new ResponseEntity<> (accountResponse.deleteAccount(accountId), HttpStatus.NO_CONTENT);
     }
-    //endpoint to get all accounts
-    @GetMapping("/accounts")
-    public ResponseEntity<Iterable<Account>> getAllAccounts(){
-        Iterable<Account> accounts = accountRepo.findAll();
-        return new ResponseEntity<>(accounts, HttpStatus.OK);
+
+
+    /**
+     * Get all accounts
+     * @return
+     */
+@GetMapping(value = "/accounts")
+    public ResponseEntity<?> getAllAccounts(){
+
+    return  new ResponseEntity<>  (accountResponse.getAllAccounts(), HttpStatus.OK);
     }
-    //endpoint for an account by Id
+
+    /**
+     * Get an account by id
+     * @param accountId
+     * @return
+     */
     @GetMapping("/accounts/{accountId}")
-    public ResponseEntity<Account> getAccountById(@PathVariable Long accountId){
-      Optional<Account> account = accountRepo.findById(accountId);
-      return account.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-    //get all accounts for a customer
-    @GetMapping("/customers/{customerId}/accounts")
-    public ResponseEntity<Iterable<Account>> getAllAccountsForCustomer(@PathVariable Long customerId){
-        verifyCostumer(customerId);
-
-        Iterable<Account> accounts = accountRepo.findByCustomerId(customerId);
-
-        return new ResponseEntity<>(accounts, HttpStatus.OK);
+    public ResponseEntity<?> getAccountById(@PathVariable Long accountId){
+      return new ResponseEntity<>(accountResponse.getAccountById(accountId),HttpStatus.OK) ;
     }
 
-    //update an existing account
-    @PutMapping("{accountId}")
-    public ResponseEntity<Account> updateAccount(@PathVariable Long accountId, @RequestBody Account updatedAccount){
-        try{
-            Account updated = accountService.updateAccount(updatedAccount, accountId);
-            return new ResponseEntity<>(updated, HttpStatus.OK);
 
-        }catch(ResourceNotFoundException exception){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    /**
+     * Update an account
+     * @param accountId
+     * @param updatedAccount
+     * @return
+     */
+    @PutMapping("/accounts/{accountId}")
+    public ResponseEntity<?> updateAccount(@PathVariable Long accountId, @RequestBody Account updatedAccount){
+        return new ResponseEntity<> (accountResponse.updateAccount(updatedAccount, accountId), HttpStatus.OK);
     }
 
 
