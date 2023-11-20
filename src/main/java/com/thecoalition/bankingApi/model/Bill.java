@@ -1,8 +1,6 @@
 package com.thecoalition.bankingApi.model;
 
 
-import com.thecoalition.bankingApi.utility.Status;
-
 public class Bill {
     private Long id;
     private String status,payee,nickname,creation_date,payment_date,
@@ -17,7 +15,7 @@ public class Bill {
         this.id = id;
     }
 
-    public Status getStatus(Status status) {
+    public String getStatus() {
         return status;
     }
 
