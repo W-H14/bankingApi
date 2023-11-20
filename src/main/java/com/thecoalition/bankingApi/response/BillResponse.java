@@ -1,16 +1,12 @@
 package com.thecoalition.bankingApi.response;
 
 import com.thecoalition.bankingApi.dto.Body;
-import com.thecoalition.bankingApi.model.Account;
 import com.thecoalition.bankingApi.model.Bill;
-import com.thecoalition.bankingApi.model.Customer;
 import com.thecoalition.bankingApi.service.BillService;
-import com.thecoalition.bankingApi.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
 
