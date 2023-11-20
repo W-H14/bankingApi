@@ -1,4 +1,4 @@
-package exceptions;
+package com.thecoalition.bankingApi.exceptions;
 
 
 public class ResourceNotFoundException extends RuntimeException {
