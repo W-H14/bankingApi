@@ -1,6 +1,8 @@
 package com.thecoalition.bankingApi.controller;
 
 import com.thecoalition.bankingApi.model.Customer;
+import com.thecoalition.bankingApi.repository.CustomerRespository;
+import com.thecoalition.bankingApi.response.CustomerResponse;
 import com.thecoalition.bankingApi.service.CustomerService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,53 +19,66 @@ public class CustomerController {
 
     private CustomerService customerService;
 
-    @RequestMapping(value="/customers", method= RequestMethod.GET)
+   @Autowired
+    CustomerRespository customerRespository;
 
-    public ResponseEntity<Iterable<Customer>> getAllCustomers(){
-        return new ResponseEntity<>(customerService.getCustomers(), HttpStatus.OK);
+   @Autowired
+    CustomerResponse costumerResponse;
+
+
+
+    @GetMapping(value="/customers")
+
+    public ResponseEntity<?> getAllCustomers(){
+        return new ResponseEntity<>(costumerResponse.getAllCostumers(), HttpStatus.OK);
     }
+
 
     @PostMapping("/customers")
     public ResponseEntity<?> createCustomer(@Validated @RequestBody Customer customer){
-         Customer newCustomer = customerService.addCustomer(customer);
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+
+        return new ResponseEntity<>(customerService.addCustomer(customer),HttpStatus.CREATED);
     }
 
-//    @GetMapping("/accounts/{accountid}/customer")
-//    public ResponseEntity<?> getCustomer(@PathVariable Long customerId) throws Exception {
-//        Optional<Customer> customer =  customerService.getCustomerById(customerId);
-//
-//        if(!customer.isPresent()){
-//            throw new Exception("Customer not found");
-//        }
-//
-//        return new ResponseEntity<>(customer.get(), HttpStatus.OK);
-//    }
+
 
 
 
     @GetMapping("/customers/{customerId}")
-    public ResponseEntity<?> getCustomer(@PathVariable Long customerId) throws Exception {
-        Optional<Customer> customer =  customerService.getCustomerById(customerId);
-
-        if(!customer.isPresent()){
-            throw new Exception("Customer not found");
-        }
-
-        return new ResponseEntity<>(customer.get(), HttpStatus.OK);
+    public ResponseEntity<?> getCustomer(@PathVariable Long customerId)  {
+        return new ResponseEntity<>(customerService.getCustomerById(customerId), HttpStatus.OK);
     }
 
     @PutMapping("/customers/{customerId}")
     public ResponseEntity<?> updateCustomer(@RequestBody Customer customer, @PathVariable Long customerId){
-        customerService.editCustomer(customer, customerId);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        return new ResponseEntity<>( costumerResponse.updateCustomer(customer,customerId),HttpStatus.OK);
     }
 
     @DeleteMapping("/customers/{customerId}")
     public ResponseEntity<?> deleteCustomer(@PathVariable Long customerId){
-        customerService.deleteCustomer(customerId);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        return new ResponseEntity<>(costumerResponse.deleteCustomer(customerId),HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/accounts/{accountId}customer")
+    public ResponseEntity<?> getCustomerByAccountId(@PathVariable Long accountId){
+        return new ResponseEntity<>(customerService.getCustomerByAccountId(accountId),HttpStatus.OK);
+    }
+
+
+    /*
+     @GetMapping("/customers/{customerId}/accounts")
+    public ResponseEntity<Iterable<Account>> getAllAccountsForCustomer(@PathVariable Long customerId){
+        verifyCostumer(customerId);
+
+        Iterable<Account> accounts = accountRepo.findByCustomerId(customerId);
+
+        return new ResponseEntity<>(accounts, HttpStatus.OK);
+    }
+
+     */
+
 }
