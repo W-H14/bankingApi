@@ -10,15 +10,16 @@ import java.util.Optional;
 @Service
 public class DepositService {
     @Autowired
-    DepositRepository depositRepository;
+    private DepositRepository depositRepository;
+
     //Create deposit
-    public Deposit createDeposit(Long acountId, Deposit deposit){
+    public Deposit createDeposit(Long payee_id, Deposit deposit){
         return depositRepository.save(deposit);
     }
     //get all from an account
-    public Iterable<Deposit> getAllDeposits(Long accountId){
-        Iterable<Deposit> allDeposits = depositRepository.findAll();
-        return depositRepository.findByAccount(accountId);
+    public Optional<Deposit> getAllDeposits(Long accountId){
+
+        return depositRepository.findByPayeeId(accountId);
     }
     //Get deposit by id
     public Optional<Deposit> getDeposit(Long id){

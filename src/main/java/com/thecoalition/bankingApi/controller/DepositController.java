@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -17,13 +18,15 @@ import java.util.Optional;
 public class DepositController {
     @Autowired
     private DepositService depositService;
-    @Autowired
-    private AccountService accountService;
+
 
     @RequestMapping(value="/accounts/{accountId}/deposits", method= RequestMethod.GET)
-    public ResponseEntity<Iterable<Deposit>> getAll(@PathVariable Long accountId){
+    public ResponseEntity<Optional<Deposit>> getAll(@PathVariable Long accountId){
+//        Optional<Deposit> deposit = depositService.getAllDeposits(accountId); // Modify this based on your requirements
+//        return ResponseEntity.of(deposit)
         return new ResponseEntity<>(depositService.getAllDeposits(accountId), HttpStatus.OK);
     }
+
     @GetMapping("/deposits/{depositId}")
     @ResponseStatus(HttpStatus.OK)
     public Optional<Deposit> getById(@PathVariable Long depositId){
@@ -37,6 +40,7 @@ public class DepositController {
        depositService.createDeposit(accountId, deposit);
     }
     @PutMapping("/deposits/{depositId}")
+
     public Deposit editDeposit(@PathVariable Long depositId, @RequestBody Deposit deposit){
         return depositService.editDeposit(depositId, deposit);
     }
