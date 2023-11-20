@@ -1,6 +1,7 @@
 package com.thecoalition.bankingApi.service;
 
 
+import com.thecoalition.bankingApi.model.Account;
 import com.thecoalition.bankingApi.model.Customer;
 import com.thecoalition.bankingApi.repository.CustomerRespository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class CustomerService {
 
     @Autowired
     AddressService addressService;
+
+    @Autowired
+    Account account;
 
     public Customer addCustomer(Customer customer){
         return customerRepository.save(customer);
@@ -49,9 +53,10 @@ public class CustomerService {
             customerRepository.save(customerToEdit);
 
             return customerToEdit;
-
-
     }
-
+    public Iterable<Customer> getCustomerByAccountId(Long accountId){
+        Customer customerToGetAccount = new Customer();
+      return customerRepository.findAccountsByAccountId(accountId);
+   }
 
 }

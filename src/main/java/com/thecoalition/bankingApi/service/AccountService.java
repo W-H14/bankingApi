@@ -1,7 +1,9 @@
 package com.thecoalition.bankingApi.service;
 
 import com.thecoalition.bankingApi.model.Account;
+import com.thecoalition.bankingApi.model.Customer;
 import com.thecoalition.bankingApi.repository.AccountRepository;
+import exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,21 +15,34 @@ import java.util.Optional;
 public class AccountService {
 
     @Autowired
-    AccountRepository AccountRepo;
-
+    private AccountRepository AccountRepo;
     @Autowired
+    private CustomerService customerService;
 
-    public void getAllAccounts() {
-        Iterable<Account> allAccounts = AccountRepo.findAll();
+
+
+    public void verifyCostumer(Long CostumerId) throws ResourceNotFoundException {
+        Optional<Customer> costumer = customerService.getCustomerById(CostumerId);
+        if (costumer.isEmpty()) {
+            throw new ResourceNotFoundException("Costumer with id " + CostumerId + " not found");
+        }
     }
 
-    public void createAccount(Long costusmerId,Account account) {
-        AccountRepo.save(account);
+
+
+
+    public Iterable<Account> getAllAccounts() {
+
+                return AccountRepo.findAll();
     }
 
-
+    public Account createAccount(Long costusmerId,Account account) {
+        verifyCostumer(costusmerId);
+       return AccountRepo.save(account);
+    }
 
     public Optional<Account> getAccount(Long AccountId) {
+        verifyCostumer(AccountId);
         return AccountRepo.findById(AccountId);
     }
 
@@ -51,5 +66,5 @@ public class AccountService {
     public void deleteAccount(Long accountId) {
         AccountRepo.deleteById(accountId);
     }
-}
 
+}

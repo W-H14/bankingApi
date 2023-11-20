@@ -1,4 +1,4 @@
-package com.thecoalition.bankingApi.model;
+package com.thecoalition.bankingApi.utility;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

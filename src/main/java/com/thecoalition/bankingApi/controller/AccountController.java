@@ -3,6 +3,7 @@ package com.thecoalition.bankingApi.controller;
 import com.thecoalition.bankingApi.model.Account;
 import com.thecoalition.bankingApi.model.Customer;
 import com.thecoalition.bankingApi.repository.AccountRepository;
+import com.thecoalition.bankingApi.response.AccountResponse;
 import com.thecoalition.bankingApi.service.AccountService;
 
 
@@ -12,12 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.List;
 import java.util.Optional;
 
 public class AccountController {
@@ -31,29 +30,66 @@ public class AccountController {
     @Autowired
     private CustomerService customerService;
 
-
-    public void verifyCostumer(Long CostumerId) throws ResourceNotFoundException {
-        Optional<Customer> costumer = customerService.getCustomerById(CostumerId);
-        if (costumer.isEmpty()) {
-            throw new ResourceNotFoundException("Costumer with id " + CostumerId + " not found");
-        }
-    }
+    @Autowired
+    private AccountResponse accountResponse;
 
 
-    @RequestMapping(value = "/costumers/{costumerId}/accounts", method = RequestMethod.POST)
+    /**
+     * Create a new account for a customer
+     * @param costumerId
+     * @param account
+     * @return
+     */
+    @PostMapping(value = "/costumers/{costumerId}/accounts")
     public ResponseEntity<?> createAccount(@PathVariable Long costumerId, @RequestBody Account account) {
-        verifyCostumer(costumerId);
-        accountService.createAccount(costumerId, account);
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(account.getAccountId()).toUri());
-        return new ResponseEntity<>(HttpStatus.CREATED);
+       return new ResponseEntity<> (accountResponse.createAccount(costumerId, account), HttpStatus.CREATED);
+
     }
 
 
-    @RequestMapping(value = "/accounts//{accountId}", method = RequestMethod.DELETE)
+    /**
+     * Delete an account
+     * @param accountId
+     * @return
+     */
+    @DeleteMapping(value = "/accounts/{accountId}")
     public ResponseEntity<?> deleteAccount(@PathVariable Long accountId){
-        accountService.deleteAccount(accountId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+         return new ResponseEntity<> (accountResponse.deleteAccount(accountId), HttpStatus.NO_CONTENT);
     }
+
+
+    /**
+     * Get all accounts
+     * @return
+     */
+@GetMapping(value = "/accounts")
+    public ResponseEntity<?> getAllAccounts(){
+
+    return  new ResponseEntity<>  (accountResponse.getAllAccounts(), HttpStatus.OK);
+    }
+
+    /**
+     * Get an account by id
+     * @param accountId
+     * @return
+     */
+    @GetMapping("/accounts/{accountId}")
+    public ResponseEntity<?> getAccountById(@PathVariable Long accountId){
+      return new ResponseEntity<>(accountResponse.getAccountById(accountId),HttpStatus.OK) ;
+    }
+
+
+    /**
+     * Update an account
+     * @param accountId
+     * @param updatedAccount
+     * @return
+     */
+    @PutMapping("/accounts/{accountId}")
+    public ResponseEntity<?> updateAccount(@PathVariable Long accountId, @RequestBody Account updatedAccount){
+        return new ResponseEntity<> (accountResponse.updateAccount(updatedAccount, accountId), HttpStatus.OK);
+    }
+
+
 
 }

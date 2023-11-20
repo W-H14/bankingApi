@@ -1,22 +1,20 @@
 package com.thecoalition.bankingApi.model;
 
-import javax.persistence.*;
-import javax.persistence.*;
+import com.thecoalition.bankingApi.utility.Type;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-import java.util.Set;
 
 
 @Entity
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ACCOUNT_ID")
     private long accountId;
 
-
+    @Enumerated(EnumType.STRING)
     @Column(name = "ACCOUNT_TYPE")
     @NotEmpty
     private Type type;

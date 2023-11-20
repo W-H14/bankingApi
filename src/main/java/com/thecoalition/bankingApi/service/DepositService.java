@@ -34,8 +34,8 @@ public class DepositService {
 
     }
     //edit a deposit
-    public Deposit editDeposit(Long id, Deposit deposit) {
-        Optional<Deposit> tempDeposit = getDeposit(id);
+    public Deposit editDeposit(Long depositId, Deposit deposit) {
+        Optional<Deposit> tempDeposit = getDeposit(depositId);
         Deposit d = tempDeposit.get();
         d.setStatus(deposit.getStatus());
         d.setDescription(deposit.getDescription());
