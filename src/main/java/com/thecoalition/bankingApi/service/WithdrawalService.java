@@ -18,23 +18,18 @@ public class WithdrawalService {
         this.withdrawalRepository = withdrawalRepository;
     }
 
-    public List<Withdrawal> getAllWithdrawalsForAccount(Long accountId) {
-        // Implement logic to fetch all withdrawals for a specific account
-        // For example: return withdrawalRepository.findAllByAccountId(accountId);
-        // Adjust the method based on your actual data model and repository methods.
-        return null;
+    public Iterable<Withdrawal> getAllWithdrawalsForAccount(Long accountId) {
+        Iterable<Withdrawal>withdrawals = withdrawalRepository.findAll();
+        return withdrawalRepository.findAllById(accountId);
     }
 
     public Withdrawal getWithdrawalById(Long withdrawalId) {
         Optional<Withdrawal> optionalWithdrawal = withdrawalRepository.findById(withdrawalId);
-        return optionalWithdrawal.orElse(null); // Handle if not found
+        return optionalWithdrawal.orElse(null);
     }
 
     public Withdrawal createWithdrawal(Long accountId, Withdrawal withdrawal) {
-        // Implement logic to create a withdrawal for a specific account
-        // For example: withdrawal.setAccountId(accountId);
-        // Adjust the method based on your actual data model and repository methods.
-        return null;
+        return withdrawalRepository.save(withdrawal);
     }
 
     public Withdrawal updateWithdrawal(Long withdrawalId, Withdrawal updatedWithdrawal) {
@@ -42,7 +37,7 @@ public class WithdrawalService {
             updatedWithdrawal.setId(withdrawalId);
             return withdrawalRepository.save(updatedWithdrawal);
         }
-        return null; // Handle if not found
+        return null;
     }
 
     public void deleteWithdrawal(Long withdrawalId) {
