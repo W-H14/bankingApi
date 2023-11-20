@@ -1,51 +1,44 @@
 package com.thecoalition.bankingApi.controller;
 
 import com.thecoalition.bankingApi.model.Withdrawal;
-import com.thecoalition.bankingApi.repository.WithdrawalRepository;
+import com.thecoalition.bankingApi.response.WithdrawalResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
 @RestController
-@RequestMapping("/accounts/{accountId}/withdrawals")
+@RequestMapping("/api")
 public class WithdrawalController {
 
-    private final WithdrawalRepository withdrawalRepository;
+    private final WithdrawalResponse withdrawalResponse;
 
     @Autowired
-    public WithdrawalController(WithdrawalRepository withdrawalRepository) {
-        this.withdrawalRepository = withdrawalRepository;
+    public WithdrawalController(WithdrawalResponse withdrawalResponse) {
+        this.withdrawalResponse = withdrawalResponse;
     }
 
-    @GetMapping
-    public List<Withdrawal> getAllWithdrawalsForAccount(@PathVariable Long accountId) {
-        return null;
+    @GetMapping("/accounts/{accountId}/withdrawals")
+    public ResponseEntity<?> getAllWithdrawals(@PathVariable Long accountId) {
+        return withdrawalResponse.getAllWithdrawals(accountId);
     }
 
-    @GetMapping("/{withdrawalId}")
-    public Withdrawal getWithdrawalById(@PathVariable Long withdrawalId) {
-        Optional<Withdrawal> optionalWithdrawal = withdrawalRepository.findById(withdrawalId);
-        return optionalWithdrawal.orElse(null);
+    @GetMapping("/withdrawals/{withdrawalId}")
+    public ResponseEntity<?> getWithdrawalById(@PathVariable Long withdrawalId) {
+        return withdrawalResponse.getWithdrawalById(withdrawalId);
     }
 
-    @PostMapping
-    public Withdrawal createWithdrawal(@PathVariable Long accountId, @RequestBody Withdrawal withdrawal) {
-        return null;
+    @PostMapping("/accounts/{accountId}/withdrawals")
+    public ResponseEntity<?> createWithdrawal(@PathVariable Long accountId, @RequestBody Withdrawal withdrawal) {
+        return withdrawalResponse.createWithdrawal(accountId, withdrawal);
     }
 
-    @PutMapping("/{withdrawalId}")
-    public Withdrawal updateWithdrawal(@PathVariable Long withdrawalId, @RequestBody Withdrawal updatedWithdrawal) {
-        if (withdrawalRepository.existsById(withdrawalId)) {
-            updatedWithdrawal.setId(withdrawalId);
-            return withdrawalRepository.save(updatedWithdrawal);
-        }
-        return null;
+    @PutMapping("/withdrawals/{withdrawalId}")
+    public ResponseEntity<?> updateWithdrawal(@RequestBody Withdrawal updatedWithdrawal, @PathVariable Long withdrawalId) {
+        return withdrawalResponse.updateWithdrawal(updatedWithdrawal, withdrawalId);
     }
 
-    @DeleteMapping("/{withdrawalId}")
-    public void deleteWithdrawal(@PathVariable Long withdrawalId) {
-        withdrawalRepository.deleteById(withdrawalId);
+    @DeleteMapping("/withdrawals/{withdrawalId}")
+    public ResponseEntity<?> deleteWithdrawal(@PathVariable Long withdrawalId) {
+        return withdrawalResponse.deleteWithdrawal(withdrawalId);
     }
 }
