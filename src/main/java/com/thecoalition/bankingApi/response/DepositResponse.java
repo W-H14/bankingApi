@@ -53,5 +53,11 @@ public class DepositResponse {
         return new ResponseEntity<>(body, HttpStatus.NO_CONTENT);
     }
 
-
+    public ResponseEntity<?> getDeposit(Long Id) {
+        Body body = new Body();
+        body.setData(depositService.getDeposit(Id));
+        body.setCode(HttpStatus.OK.value());
+        body.setMessage("Success");
+        return new ResponseEntity<>(body, HttpStatus.OK);
+    }
     }
