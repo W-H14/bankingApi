@@ -1,7 +1,5 @@
 package com.thecoalition.bankingApi.controller;
 
-import com.thecoalition.bankingApi.model.Account;
-import com.thecoalition.bankingApi.model.Customer;
 import com.thecoalition.bankingApi.model.Deposit;
 import com.thecoalition.bankingApi.service.AccountService;
 import com.thecoalition.bankingApi.service.DepositService;

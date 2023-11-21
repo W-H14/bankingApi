@@ -4,4 +4,5 @@ import com.thecoalition.bankingApi.model.Account;
 import org.springframework.data.repository.CrudRepository;
 
 public interface AccountRepository  extends CrudRepository<Account, Long> {
+    Iterable<Account> findByCustomerId(Long customerId);
 }
