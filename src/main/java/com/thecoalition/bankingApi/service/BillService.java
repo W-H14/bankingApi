@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 //package com.thecoalition.bankingApi.service;
 //
 //
@@ -44,7 +44,7 @@
 //
 //    }
 //}
-=======
+
 package com.thecoalition.bankingApi.service;
 
 
@@ -102,5 +102,5 @@ public class BillService {
 
 
 }
->>>>>>> 7e6b67cf2ee8d8f40557952105ed9bc57a41349f
+
 

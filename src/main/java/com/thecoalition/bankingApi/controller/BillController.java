@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 //package com.thecoalition.bankingApi.controller;
 //
 //
@@ -39,7 +39,7 @@
 //    }
 //}
 //
-=======
+
 package com.thecoalition.bankingApi.controller;
 
 
@@ -105,4 +105,4 @@ public class BillController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
->>>>>>> 7e6b67cf2ee8d8f40557952105ed9bc57a41349f
+
