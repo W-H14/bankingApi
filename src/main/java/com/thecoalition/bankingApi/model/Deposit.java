@@ -2,8 +2,10 @@ package com.thecoalition.bankingApi.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
+
 @Entity
-public class Deposit {
+public class Deposit implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotEmpty
@@ -20,9 +22,9 @@ public class Deposit {
     @Column(name = "STATUS")
     @NotEmpty
     private String status;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PAYEE_ID")
+
+
+    @JoinColumn(name = "PAYEE_ID")
     @NotEmpty
     private Long payee_id;
     @Column(name = "MEDIUM")
