@@ -27,9 +27,10 @@ public class Customer {
    @JoinColumn(name = "customer_Id")
    private Set<Address> addresses;
 
-    public Customer(){
 
+    public Customer() {
     }
+
     public Customer(Long id, String firstName, String lastName, Set<Address> addresses) {
         this.id = id;
         this.firstName = firstName;
