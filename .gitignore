@@ -26,7 +26,7 @@ src/main/resources/applicagiti
 /dist/
 /nbdist/
 /.nb-gradle/
-bugit pild/
+bugit pgit ild/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
