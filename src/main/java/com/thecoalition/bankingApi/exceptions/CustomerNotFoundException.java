@@ -4,8 +4,9 @@ import com.thecoalition.bankingApi.error.ErrorDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class CustomerNotFoundException extends RuntimeException {
-    @Autowired
-    ErrorDetail errorDetail;
+    public CustomerNotFoundException(String message) {
+        super(message);
+    }
 
 
 }

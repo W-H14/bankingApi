@@ -37,7 +37,7 @@ public class RestExceptionHandler {
     // Example for BillNotFoundException
     @ExceptionHandler(BillNotFoundException.class)
     public ResponseEntity<ErrorDetail> handleBillNotFoundException(BillNotFoundException e) {
-        return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ErrorDetail(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
     // Example for DepositNotFoundException
