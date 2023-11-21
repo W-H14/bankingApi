@@ -29,6 +29,9 @@ public class Address {
     @Column(name = "zipcode")
     private String zipCode;
 
+    public Address(){
+
+    }
     public Address(Long id, String streetNumber, String streetName, String city, String state, String zipCode) {
         this.id = id;
         this.streetNumber = streetNumber;
