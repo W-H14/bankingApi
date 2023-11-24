@@ -18,7 +18,6 @@ public class AccountService {
     @Autowired
     private CustomerService customerService;
 
-git
 
     public void verifyCostumer(Long CostumerId) throws ResourceNotFoundException {
         Optional<Customer> costumer = customerService.getCustomerById(CostumerId);
