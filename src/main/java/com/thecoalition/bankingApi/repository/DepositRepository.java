@@ -1,5 +1,4 @@
 package com.thecoalition.bankingApi.repository;
-import com.thecoalition.bankingApi.model.Address;
 import com.thecoalition.bankingApi.model.Deposit;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
