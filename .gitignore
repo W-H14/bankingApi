@@ -26,10 +26,13 @@ src/main/resources/applicagiti
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
+bugit pgit ild/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
 ### VS Code ###
 .vscode/
+
+
 **/application.properties
+

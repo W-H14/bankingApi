@@ -1,9 +1,8 @@
 package com.thecoalition.bankingApi.service;
 
 import com.thecoalition.bankingApi.model.Account;
-import com.thecoalition.bankingApi.model.Customer;
 import com.thecoalition.bankingApi.repository.AccountRepository;
-import exceptions.ResourceNotFoundException;
+import com.thecoalition.bankingApi.handler.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

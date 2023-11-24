@@ -1,23 +1,15 @@
 package com.thecoalition.bankingApi.controller;
 
 import com.thecoalition.bankingApi.model.Account;
-import com.thecoalition.bankingApi.model.Customer;
 import com.thecoalition.bankingApi.repository.AccountRepository;
 import com.thecoalition.bankingApi.response.AccountResponse;
 import com.thecoalition.bankingApi.service.AccountService;
 
 
-import com.thecoalition.bankingApi.service.CustomerService;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.util.List;
-import java.util.Optional;
 
 public class AccountController {
 
