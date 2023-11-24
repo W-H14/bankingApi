@@ -1,24 +1,42 @@
 package com.thecoalition.bankingApi.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Entity
+@Table(name = "customer")
 public class Customer {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="customer_id")
-    private Long id;
-
-    private String firstName;
-
-    private String lastName;
-
-    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name="Customer_ID")
-    @JoinColumn(name="customer_id")
+    @Column(name = "customer_Id")
     @OrderBy
-    private Set<Address> address;
+   private Long id;
+
+    @NotBlank
+    @Column(name = "first_name")
+   private String firstName;
+
+    @NotBlank
+    @Column(name = "last_name")
+   private String lastName;
+
+    @NotBlank
+   @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+   @JoinColumn(name = "customer_Id")
+   private Set<Address> addresses;
+
+
+    public Customer() {
+    }
+
+    public Customer(Long id, String firstName, String lastName, Set<Address> addresses) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.addresses = addresses;
+    }
 
     public Long getId() {
         return id;
@@ -44,12 +62,12 @@ public class Customer {
         this.lastName = lastName;
     }
 
-    public Set<Address> getAddress() {
-        return address;
+    public Set<Address> getAddresses() {
+        return addresses;
     }
 
-    public void setAddress(Set<Address> addresses) {
-        this.address = addresses;
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses = addresses;
     }
 
     @Override
@@ -58,7 +76,7 @@ public class Customer {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", addresses=" + address +
+                ", addresses=" + addresses +
                 '}';
     }
 }

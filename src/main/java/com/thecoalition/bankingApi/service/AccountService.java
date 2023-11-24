@@ -3,7 +3,7 @@ package com.thecoalition.bankingApi.service;
 import com.thecoalition.bankingApi.model.Account;
 import com.thecoalition.bankingApi.model.Customer;
 import com.thecoalition.bankingApi.repository.AccountRepository;
-import exceptions.ResourceNotFoundException;
+import com.thecoalition.bankingApi.handler.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,6 @@ public class AccountService {
     private AccountRepository AccountRepo;
     @Autowired
     private CustomerService customerService;
-
 
 
     public void verifyCostumer(Long CostumerId) throws ResourceNotFoundException {
@@ -41,7 +40,7 @@ public class AccountService {
        return AccountRepo.save(account);
     }
 
-    public Optional<Account> getAccount(Long AccountId) {
+    public Account getAccount(Long AccountId) {
         verifyCostumer(AccountId);
         return AccountRepo.findById(AccountId);
     }

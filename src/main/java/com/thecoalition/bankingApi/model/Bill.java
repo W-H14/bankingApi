@@ -1,11 +1,73 @@
 package com.thecoalition.bankingApi.model;
 
+import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-public class Bill {
+
+
+@Entity
+@Table
+public class Bill{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Long id;
-    private String status,payee,nickname,creation_date,payment_date,
-            recurring_date,upcoming_payment,account_id;
+
+
+    @Column
+    private String status;
+
+
+    @Column
+    private String payee;
+
+
+    @Column
+    private String nickname;
+
+
+    @Column
+    private String creation_date;
+
+
+    @Column
+    private String payment_date;
+
+
+    @Column
+    private Long recurring_date;
+
+
+    @Column
+    private String upcoming_payment;
+
+
+    @Column
+    private Long account_id;
+
+
+    @Column
     private Double payment_amount;
+
+    public Bill() {
+    }
+
+    public Bill(Long id, String status, String payee, String nickname, String creation_date, String payment_date, Long recurring_date, String upcoming_payment, Long account_id, Double payment_amount) {
+        this.id = id;
+        this.status = status;
+        this.payee = payee;
+        this.nickname = nickname;
+        this.creation_date = creation_date;
+        this.payment_date = payment_date;
+        this.recurring_date = recurring_date;
+        this.upcoming_payment = upcoming_payment;
+        this.account_id = account_id;
+        this.payment_amount = payment_amount;
+    }
 
     public Long getId() {
         return id;
@@ -55,11 +117,11 @@ public class Bill {
         this.payment_date = payment_date;
     }
 
-    public String getRecurring_date() {
+    public Long getRecurring_date() {
         return recurring_date;
     }
 
-    public void setRecurring_date(String recurring_date) {
+    public void setRecurring_date(Long recurring_date) {
         this.recurring_date = recurring_date;
     }
 
@@ -71,11 +133,11 @@ public class Bill {
         this.upcoming_payment = upcoming_payment;
     }
 
-    public String getAccount_id() {
+    public Long getAccount_id() {
         return account_id;
     }
 
-    public void setAccount_id(String account_id) {
+    public void setAccount_id(Long account_id) {
         this.account_id = account_id;
     }
 
