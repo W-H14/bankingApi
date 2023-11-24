@@ -18,9 +18,9 @@ public class WithdrawalResponse {
 
     @GetMapping("/accounts/{accountId}/withdrawals")
     public ResponseEntity<?> getAllWithdrawals(@PathVariable Long accountId) {
-        Iterable<Withdrawal> withdrawals = withdrawalService.getAllWithdrawalsForAccount(accountId);
+        withdrawalService.getAllWithdrawalsForAccount(accountId);
         Body body = new Body();
-        body.setData(withdrawals);
+        body.setData(accountId);
         body.setCode(HttpStatus.OK.value());
         body.setMessage("Success");
         return new ResponseEntity<>(body, HttpStatus.OK);
