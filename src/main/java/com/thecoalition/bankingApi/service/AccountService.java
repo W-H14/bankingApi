@@ -20,7 +20,6 @@ public class AccountService {
     private CustomerService customerService;
 
 
-
     public void verifyCostumer(Long CostumerId) throws ResourceNotFoundException {
         Optional<Customer> costumer = customerService.getCustomerById(CostumerId);
         if (costumer.isEmpty()) {
@@ -41,7 +40,7 @@ public class AccountService {
        return AccountRepo.save(account);
     }
 
-    public Optional<Account> getAccount(Long AccountId) {
+    public Account getAccount(Long AccountId) {
         verifyCostumer(AccountId);
         return AccountRepo.findById(AccountId);
     }
