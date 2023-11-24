@@ -34,7 +34,7 @@ public class WithdrawalController {
 
     @PutMapping("/withdrawals/{withdrawalId}")
     public ResponseEntity<?> updateWithdrawal(@RequestBody Withdrawal updatedWithdrawal, @PathVariable Long withdrawalId) {
-        return withdrawalResponse.updateWithdrawal(updatedWithdrawal, withdrawalId);
+        return withdrawalResponse.updateWithdrawal(withdrawalId, updatedWithdrawal);
     }
 
     @DeleteMapping("/withdrawals/{withdrawalId}")
