@@ -134,5 +134,31 @@ public class CustomerResponse {
             return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    public ResponseEntity<?> getCustomersByAccountId(Long accountId) {
+        try {
+            Iterable<Customer> customers = customerService.getCustomerByAccountId(accountId);
+
+            if (customers.iterator().hasNext()) {
+                Body body = new Body();
+                body.setData(customers);
+                body.setCode(HttpStatus.OK.value());
+                body.setMessage("Customers retrieved successfully by account ID");
+
+                return new ResponseEntity<>(body, HttpStatus.OK);
+            } else {
+                Body body = new Body();
+                body.setCode(HttpStatus.NOT_FOUND.value());
+                body.setMessage("No customers found for the given account ID");
+
+                return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            Body body = new Body();
+            body.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            body.setMessage("Error fetching customers by account ID");
+
+            return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }
