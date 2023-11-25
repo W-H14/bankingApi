@@ -58,7 +58,7 @@ public class AccountResponse {
 
     public ResponseEntity<?> getAccountById(Long accountId) throws ResourceNotFoundException {
 
-        Optional<Account> account = accountService.getAccount(accountId);
+        Optional<Account> account = accountService.getAccountById(accountId);
         if (!account.isPresent()) {
             Body body = new Body();
             body.setCode(HttpStatus.NOT_FOUND.value());
@@ -75,13 +75,12 @@ public class AccountResponse {
 
 
     public ResponseEntity<?> deleteAccount(Long accountId) {
-       try {
-           accountService.deleteAccount(accountId);
-           Body body = new Body();
-           body.setCode(HttpStatus.NO_CONTENT.value());
-           body.setMessage("Account successfully deleted");
-           return new ResponseEntity<>(body, HttpStatus.NO_CONTENT);
-       }catch (Exception e)
+
+        accountService.deleteAccount(accountId);
+        Body body = new Body();
+        body.setCode(HttpStatus.NO_CONTENT.value());
+        body.setMessage("Account successfully deleted");
+        return new ResponseEntity<>(body, HttpStatus.NO_CONTENT);
     }
 
 
