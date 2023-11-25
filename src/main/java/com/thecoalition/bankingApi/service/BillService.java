@@ -48,9 +48,12 @@
 package com.thecoalition.bankingApi.service;
 
 
+import com.thecoalition.bankingApi.handler.exceptions.ResourceNotFoundException;
 import com.thecoalition.bankingApi.model.Bill;
 import com.thecoalition.bankingApi.repository.BillRepository;
 import com.thecoalition.bankingApi.utility.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,19 +63,38 @@ import java.util.Optional;
 public class BillService {
     @Autowired
     private BillRepository billRepository;
+    private final Logger logger = LoggerFactory.getLogger(BillService.class);
     public Bill createBill(Bill bill){
+        logger.info("Bill created");
         return billRepository.save(bill);
     }
 
     public Iterable<Bill> getBills(){
+        logger.info("Successfully retrieved bill");
         return billRepository.findAll();
     }
 
+    public void verifyByCostumerId(Long customerId) throws ResourceNotFoundException {
+        Optional<Bill> bill = billRepository.findById(customerId);
+        if (bill.isEmpty()) {
+            logger.error("Customer Not Verified");
+            throw new ResourceNotFoundException("Costumer with id " + customerId + " not found");
+        }
+    }
+
+
+    public void getAllCustomerBills()throws ResourceNotFoundException{
+        billRepository.findAll();
+
+    }
+
     public Optional<Bill> getBillByAccount(Long account_id){
+        logger.info(" Successfully retrieved bill by Account ID");
         return billRepository.findById(account_id);
     }
 
     public Optional<Bill> getBillById(Long billId) {
+        logger.info("Successfully retrieved bill by Bill ID");
         return billRepository.findById(billId);
     }
 
@@ -92,10 +114,13 @@ public class BillService {
         existingBill.setUpcoming_payment(bill.getUpcoming_payment());
         existingBill.setAccount_id(bill.getAccount_id());
         existingBill.setPayment_amount(bill.getPayment_amount());
+
+        logger.info("Successfully updated Bill");
         billRepository.save(existingBill);
     }
 
     public void removeBill(Long id){
+        logger.info("Bill was Successfully deleted");
         billRepository.deleteById(id);
 
     }
