@@ -1,6 +1,7 @@
 package com.thecoalition.bankingApi.service;
 
 import ch.qos.logback.classic.joran.action.LoggerAction;
+import com.thecoalition.bankingApi.handler.exceptions.AccountNotFoundException;
 import com.thecoalition.bankingApi.model.Account;
 import com.thecoalition.bankingApi.model.Customer;
 import com.thecoalition.bankingApi.repository.AccountRepository;
@@ -41,11 +42,11 @@ public class AccountService {
 
 
 
-    public Iterable<Account> getAllAccounts() {
+    public Iterable<Account> getAllAccounts() throws AccountNotFoundException{
         Iterable<Account> allAccounts = AccountRepo.findAll();
         if (!allAccounts.iterator().hasNext()) {
             logger.error("Account Not Found");
-            throw new ResourceNotFoundException("Error fetching account");
+            throw new AccountNotFoundException("Error fetching account");
 
         }
         logger.info("All Accounts retrieved");
@@ -53,19 +54,24 @@ public class AccountService {
     }
 
     public Account createAccount(Long customerId, Account account) {
-
         verifyCostumer(customerId);
-        logger.info("Successfully created Account");
-        return AccountRepo.save(account);
+
+        try {
+            logger.info("Successfully created Account");
+            return AccountRepo.save(account);
+        } catch (Exception e) {
+            logger.error("Error fetching creating customers account", e);
+            throw new RuntimeException("Error fetching creating customers account");
+        }
     }
 
-    public Account updateAccount(Account updatedAccount, Long accountId) {
+    public Account updateAccount(Account updatedAccount, Long accountId) throws AccountNotFoundException{
         // Save the entity
         Optional<Account> accountOptional = AccountRepo.findById(accountId);
 
         if (accountOptional.isEmpty()) {
             logger.error("Couldn't update Account");
-            throw new ResourceNotFoundException("Account not found with ID: " + accountId);
+            throw new AccountNotFoundException("Error");
         }
 
         Account existingAccount = accountOptional.get();
@@ -82,8 +88,11 @@ public class AccountService {
 
 
 
-        public void deleteAccount (Long accountId){
-            verifyCostumer(accountId);
+        public void deleteAccount (Long accountId) throws AccountNotFoundException{
+            if (!AccountRepo.existsById(accountId)) {
+                logger.error("Account does not exist");
+                throw new AccountNotFoundException("Account does not exist");
+            }
 
             logger.info("Successfully deleted Account");
             AccountRepo.deleteById(accountId);
