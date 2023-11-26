@@ -20,9 +20,8 @@ public class TransactionService {
 
     @Transactional
      public void deposit(Long accountId, double amount){
-        Account account = accountService.getAccount(accountId);
-
-        account.setBalance(account.getBalance()+ amount);
+        Account account = accountService.getAccountById(accountId)
+            .orElseThrow(() -> new IllegalArgumentException("Account not found"));
         accountService.updateAccount(account, accountId);
 
         Deposit deposit = new Deposit();
@@ -31,8 +30,8 @@ public class TransactionService {
     }
     @Transactional
     public void withdrawal(Long accountId, double amount){
-        Account account = accountService.getAccount(accountId);
-
+        Account account = accountService.getAccountById(accountId)
+            .orElseThrow(() -> new IllegalArgumentException("Account not found"));
         account.setBalance(account.getBalance()- amount);
         accountService.updateAccount(account, accountId);
 
