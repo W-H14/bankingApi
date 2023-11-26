@@ -24,7 +24,6 @@ public class Customer {
 
     @NotBlank
    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-   @JoinColumn(name = "customer_Id")
    private Set<Address> addresses;
 
 
