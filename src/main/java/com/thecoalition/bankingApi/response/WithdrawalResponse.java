@@ -1,5 +1,6 @@
 package com.thecoalition.bankingApi.response;
 
+import com.thecoalition.bankingApi.handler.exceptions.WithdrawalNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class WithdrawalResponse {
     }
 
     @GetMapping("/withdrawals/{withdrawalId}")
-    public ResponseEntity<?> getWithdrawalById(@PathVariable Long withdrawalId) {
+    public ResponseEntity<?> getWithdrawalById(@PathVariable Long withdrawalId) throws WithdrawalNotFoundException {
         Withdrawal withdrawal = withdrawalService.getWithdrawalById(withdrawalId);
         Body body = new Body();
         if (withdrawal != null) {
@@ -52,7 +53,7 @@ public class WithdrawalResponse {
     }
 
     @PutMapping("/withdrawals/{withdrawalId}")
-    public ResponseEntity<?> updateWithdrawal(@RequestBody Withdrawal updatedWithdrawal, @PathVariable Long withdrawalId) {
+    public ResponseEntity<?> updateWithdrawal(@RequestBody Withdrawal updatedWithdrawal, @PathVariable Long withdrawalId) throws WithdrawalNotFoundException {
         Withdrawal updatedWithdrawalResult = withdrawalService.updateWithdrawal(withdrawalId, updatedWithdrawal);
         Body body = new Body();
         if (updatedWithdrawalResult != null) {
@@ -67,7 +68,7 @@ public class WithdrawalResponse {
     }
 
     @DeleteMapping("/withdrawals/{withdrawalId}")
-    public ResponseEntity<?> deleteWithdrawal(@PathVariable Long withdrawalId) {
+    public ResponseEntity<?> deleteWithdrawal(@PathVariable Long withdrawalId) throws WithdrawalNotFoundException {
         withdrawalService.deleteWithdrawal(withdrawalId);
         Body body = new Body();
         body.setCode(HttpStatus.NO_CONTENT.value());
