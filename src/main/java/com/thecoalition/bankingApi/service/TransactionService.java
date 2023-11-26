@@ -27,7 +27,8 @@ public class TransactionService {
         Account account = accountService.getAccountById(accountId)
             .orElseThrow(() -> new IllegalArgumentException("Account not found"));
 
-        logger.info("");
+        logger.info("Depositing {} to account {}", amount, accountId);
+
         accountService.updateAccount(account, accountId);
 
         Deposit deposit = new Deposit();
@@ -38,6 +39,9 @@ public class TransactionService {
     public void withdrawal(Long accountId, double amount){
         Account account = accountService.getAccountById(accountId)
             .orElseThrow(() -> new IllegalArgumentException("Account not found"));
+
+        logger.info("Withdrawing {} from account {}", amount, accountId);
+
         account.setBalance(account.getBalance()- amount);
         accountService.updateAccount(account, accountId);
 
