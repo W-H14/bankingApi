@@ -16,37 +16,38 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorDetail> handleResourceNotFoundException(ResourceNotFoundException e) {
+    public ResponseEntity<ErrorDetail> resourceNotFoundException(ResourceNotFoundException e) {
         return new ResponseEntity<>(new ErrorDetail(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
-    // Define additional exception handlers for specific exceptions
 
-    // Example for AccountNotFoundException
+
+
+
     @ExceptionHandler(AccountNotFoundException.class)
     public ResponseEntity<ErrorDetail> handleAccountNotFoundException(AccountNotFoundException e) {
         return new ResponseEntity<>(new ErrorDetail(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
-    // Example for CustomerNotFoundException
+
     @ExceptionHandler(CustomerNotFoundException.class)
     public ResponseEntity<ErrorDetail> handleCustomerNotFoundException(CustomerNotFoundException e) {
         return new ResponseEntity<>(new ErrorDetail(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
-    // Example for BillNotFoundException
+
     @ExceptionHandler(BillNotFoundException.class)
     public ResponseEntity<ErrorDetail> handleBillNotFoundException(BillNotFoundException e) {
         return new ResponseEntity<>(new ErrorDetail(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
-    // Example for DepositNotFoundException
+
     @ExceptionHandler(DepositNotFoundException.class)
     public ResponseEntity<ErrorDetail> handleDepositNotFoundException(DepositNotFoundException e) {
         return new ResponseEntity<>(new ErrorDetail(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
-    // Example for WithdrawalNotFoundException
+
     @ExceptionHandler(WithdrawalNotFoundException.class)
     public ResponseEntity<ErrorDetail> handleWithdrawalNotFoundException(WithdrawalNotFoundException e) {
         return new ResponseEntity<>(new ErrorDetail(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);

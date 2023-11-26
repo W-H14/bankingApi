@@ -46,6 +46,7 @@ package com.thecoalition.bankingApi.controller;
 import com.thecoalition.bankingApi.model.Bill;
 import com.thecoalition.bankingApi.response.BillResponse;
 import com.thecoalition.bankingApi.service.BillService;
+import com.thecoalition.bankingApi.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -77,6 +78,11 @@ public class BillController {
         return new ResponseEntity<>(billResponse.getBillByCustomerId(customerId),HttpStatus.OK);
 
     }
+    @GetMapping(value = "/customers/{customerId}/bills")//Action: Get all bills for customer
+    public ResponseEntity<?> getAllBillsForCustomer(@PathVariable Long customerId){
+        return new ResponseEntity<>(billResponse.getAllBills(customerId),HttpStatus.OK);
+    }
+
 
     @PostMapping(value = "/accounts/{accountId}/bills")// create a bill
     public ResponseEntity<?> createBill(@RequestBody Bill bill, @PathVariable Long billId){
