@@ -1,10 +1,10 @@
 package com.thecoalition.bankingApi.response;
 
+import com.thecoalition.bankingApi.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.*;
 
 import com.thecoalition.bankingApi.dto.Body;
 import com.thecoalition.bankingApi.model.Withdrawal;
@@ -15,64 +15,51 @@ public class WithdrawalResponse {
 
     @Autowired
     private WithdrawalService withdrawalService;
+    @Autowired
+    private AccountService accountService;
 
-    @GetMapping("/accounts/{accountId}/withdrawals")
-    public ResponseEntity<?> getAllWithdrawals(@PathVariable Long accountId) {
-        Iterable<Withdrawal> withdrawals = withdrawalService.getAllWithdrawalsForAccount(accountId);
+    public ResponseEntity<?> createWithdrawal(Long accountId, Withdrawal withdrawal) {
+        withdrawalService.createWithdrawal(accountId, withdrawal);
+        accountService.verifyCostumer(accountId);
         Body body = new Body();
-        body.setData(withdrawals);
+        body.setData(withdrawal);
+        body.setCode(HttpStatus.CREATED.value());
+        body.setMessage("Created withdrawal and deducted it from the account");
+        return new ResponseEntity<>(body, HttpStatus.CREATED);
+    }
+
+    public ResponseEntity<?> getAllWithdrawals(Long accountId) {
+        Body body = new Body();
+        body.setData(withdrawalService.getAllWithdrawalsForAccount(accountId));
         body.setCode(HttpStatus.OK.value());
         body.setMessage("Success");
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
 
-    @GetMapping("/withdrawals/{withdrawalId}")
-    public ResponseEntity<?> getWithdrawalById(@PathVariable Long withdrawalId) {
-        Withdrawal withdrawal = withdrawalService.getWithdrawalById(withdrawalId);
+    public ResponseEntity<?> updateWithdrawal(Long withdrawalId, Withdrawal withdrawal) {
+        withdrawalService.updateWithdrawal(withdrawalId, withdrawal);
         Body body = new Body();
-        if (withdrawal != null) {
-            body.setData(withdrawal);
-            body.setCode(HttpStatus.OK.value());
-            body.setMessage("Success");
-        } else {
-            body.setCode(HttpStatus.NOT_FOUND.value());
-            body.setMessage("Withdrawal not found");
-        }
+        body.setData(withdrawal);
+        body.setCode(HttpStatus.OK.value());
+        body.setMessage("Accepted withdrawal modification");
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
 
-    @PostMapping("/accounts/{accountId}/withdrawals")
-    public ResponseEntity<?> createWithdrawal(@PathVariable Long accountId, @RequestBody Withdrawal withdrawal) {
-        Withdrawal createdWithdrawal = withdrawalService.createWithdrawal(accountId, withdrawal);
-        Body body = new Body();
-        body.setData(createdWithdrawal);
-        body.setCode(HttpStatus.CREATED.value());
-        body.setMessage("Withdrawal created successfully");
-        return new ResponseEntity<>(body, HttpStatus.CREATED);
-    }
-
-    @PutMapping("/withdrawals/{withdrawalId}")
-    public ResponseEntity<?> updateWithdrawal(@RequestBody Withdrawal updatedWithdrawal, @PathVariable Long withdrawalId) {
-        Withdrawal updatedWithdrawalResult = withdrawalService.updateWithdrawal(withdrawalId, updatedWithdrawal);
-        Body body = new Body();
-        if (updatedWithdrawalResult != null) {
-            body.setData(updatedWithdrawalResult);
-            body.setCode(HttpStatus.OK.value());
-            body.setMessage("Withdrawal updated successfully");
-        } else {
-            body.setCode(HttpStatus.NOT_FOUND.value());
-            body.setMessage("Withdrawal not found");
-        }
-        return new ResponseEntity<>(body, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/withdrawals/{withdrawalId}")
-    public ResponseEntity<?> deleteWithdrawal(@PathVariable Long withdrawalId) {
+    public ResponseEntity<?> deleteWithdrawal(Long withdrawalId) {
         withdrawalService.deleteWithdrawal(withdrawalId);
         Body body = new Body();
         body.setCode(HttpStatus.NO_CONTENT.value());
         body.setMessage("Withdrawal deleted successfully");
         return new ResponseEntity<>(body, HttpStatus.NO_CONTENT);
     }
+
+    public ResponseEntity<?> getWithdrawalById(Long withdrawalId) {
+        Body body = new Body();
+        body.setData(withdrawalService.getWithdrawalById(withdrawalId));
+        body.setCode(HttpStatus.OK.value());
+        body.setMessage("Success");
+        return new ResponseEntity<>(body, HttpStatus.OK);
+    }
 }
+
 
