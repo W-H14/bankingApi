@@ -1,9 +1,7 @@
 package com.thecoalition.bankingApi.controller;
 
 import com.thecoalition.bankingApi.model.Customer;
-import com.thecoalition.bankingApi.repository.CustomerRepository;
 import com.thecoalition.bankingApi.response.CustomerResponse;
-import com.thecoalition.bankingApi.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

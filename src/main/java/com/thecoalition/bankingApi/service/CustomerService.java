@@ -1,11 +1,7 @@
 package com.thecoalition.bankingApi.service;
 
 import com.thecoalition.bankingApi.handler.exceptions.CustomerNotFoundException;
-import com.thecoalition.bankingApi.handler.exceptions.ResourceNotFoundException;
-import com.thecoalition.bankingApi.model.Account;
 import com.thecoalition.bankingApi.model.Customer;
-import com.thecoalition.bankingApi.repository.CustomerRepository;
-import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
