@@ -41,7 +41,7 @@ public class WithdrawalController {
     }
 
     @DeleteMapping("/withdrawals/{withdrawalId}")
-    public ResponseEntity<?> deleteWithdrawal(@PathVariable Long withdrawalId) {
+    public ResponseEntity<?> deleteWithdrawal(@PathVariable Long withdrawalId) throws WithdrawalNotFoundException {
         return withdrawalResponse.deleteWithdrawal(withdrawalId);
     }
 }
