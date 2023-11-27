@@ -5,7 +5,7 @@ import com.thecoalition.bankingApi.utility.Type;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
-
+@Entity
 public class Account {
 
     @Id
