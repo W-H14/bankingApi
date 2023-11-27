@@ -1,5 +1,6 @@
 package com.thecoalition.bankingApi.controller;
 
+import com.thecoalition.bankingApi.handler.exceptions.WithdrawalNotFoundException;
 import com.thecoalition.bankingApi.model.Withdrawal;
 import com.thecoalition.bankingApi.response.WithdrawalResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class WithdrawalController {
     }
 
     @GetMapping("/withdrawals/{withdrawalId}")
-    public ResponseEntity<?> getWithdrawalById(@PathVariable Long withdrawalId) {
+    public ResponseEntity<?> getWithdrawalById(@PathVariable Long withdrawalId) throws WithdrawalNotFoundException {
         return withdrawalResponse.getWithdrawalById(withdrawalId);
     }
 
@@ -33,8 +34,10 @@ public class WithdrawalController {
     }
 
     @PutMapping("/withdrawals/{withdrawalId}")
-    public ResponseEntity<?> updateWithdrawal(@RequestBody Withdrawal updatedWithdrawal, @PathVariable Long withdrawalId) {
-        return withdrawalResponse.updateWithdrawal(withdrawalId, updatedWithdrawal);
+
+    public ResponseEntity<?> updateWithdrawal(@RequestBody Withdrawal updatedWithdrawal, @PathVariable Long withdrawalId) throws WithdrawalNotFoundException {
+        return withdrawalResponse.updateWithdrawal(updatedWithdrawal, withdrawalId);
+
     }
 
     @DeleteMapping("/withdrawals/{withdrawalId}")
