@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
-    Iterable<Customer> findCustomersByAccountId(Long accountId);
+  //  Iterable<Customer> findCustomersByAccountId(Long accountId);
 
 //   phone notes
 //    List<Customer> findByFirstName(String firstName);

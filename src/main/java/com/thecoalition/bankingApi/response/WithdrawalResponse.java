@@ -23,6 +23,15 @@ public class WithdrawalResponse {
     @Autowired
     private AccountService accountService;
 
+
+    public ResponseEntity<?> getAllWithdrawals(Long accountId) {
+        Body body = new Body();
+        body.setData(withdrawalService.getAllWithdrawalsForAccount(accountId));
+        body.setCode(HttpStatus.OK.value());
+        body.setMessage("Success");
+        return new ResponseEntity<>(body, HttpStatus.OK);
+    }
+
     public ResponseEntity<?> createWithdrawal(Long accountId, Withdrawal withdrawal) {
         withdrawalService.createWithdrawal(accountId, withdrawal);
         accountService.verifyCostumer(accountId);
