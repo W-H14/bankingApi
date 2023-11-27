@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.thecoalition.bankingApi.dto.Body;
 import com.thecoalition.bankingApi.model.Withdrawal;
 import com.thecoalition.bankingApi.service.WithdrawalService;
+import org.springframework.web.bind.annotation.*;
 
 @Component
 public class WithdrawalResponse {
