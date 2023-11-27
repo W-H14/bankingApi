@@ -9,31 +9,31 @@ public class Deposit implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotEmpty
-    @Column(name = "DEPOSIT_ID")
+    @Column(name = "deposit_id")
     private Long depositID;
 
-    @Column(name = "DEPOSIT_TYPE")
+    @Column(name = "deposit_type")
     @NotEmpty
     private String type;
-    @Column(name = "TRANSACTION_DATE")
+    @Column(name = "transaction_date")
     @NotEmpty
     private String transaction_date;
 
-    @Column(name = "STATUS")
+    @Column(name = "status")
     @NotEmpty
     private String status;
 
 
-    @JoinColumn(name = "PAYEE_ID")
+    @JoinColumn(name = "payee_id")
     @NotEmpty
     private Long payee_id;
-    @Column(name = "MEDIUM")
+    @Column(name = "medium")
     @NotEmpty
     private String medium;
-    @Column(name = "AMOUNT")
+    @Column(name = "amount")
     @NotEmpty
     private Double amount;
-    @Column(name = "DESCRIPTION")
+    @Column(name = "description")
     @NotEmpty
     private String description;
 
