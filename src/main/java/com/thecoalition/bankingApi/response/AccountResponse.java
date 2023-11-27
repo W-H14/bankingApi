@@ -2,6 +2,7 @@ package com.thecoalition.bankingApi.response;
 
 import com.thecoalition.bankingApi.model.Account;
 import com.thecoalition.bankingApi.service.AccountService;
+import com.thecoalition.bankingApi.service.CustomerService;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,36 +40,49 @@ public class AccountResponse {
 
 
     public ResponseEntity<?> getAllAccounts() {
-        Body body = new Body();
-        body.setData(accountService.getAllAccounts());
-        body.setCode(HttpStatus.OK.value());
-        body.setMessage("Success");
-        return new ResponseEntity<>(body, HttpStatus.OK);
+      try {
+          Body body = new Body();
+          body.setData(accountService.getAllAccounts());
+          body.setCode(HttpStatus.OK.value());
+          body.setMessage("Success");
+          return new ResponseEntity<>(body, HttpStatus.OK);
+      }catch(Exception exception){
+          Body body = new Body();
+          body.setCode(HttpStatus.NOT_FOUND.value());
+          body.setMessage("Error Fetching Accounts");
+          return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+      }
     }
 
 
 
     public ResponseEntity<?> getAccountById(Long accountId) throws ResourceNotFoundException {
-        Optional<Account> account = accountService.getAccount(accountId);
+
+        Optional<Account> account = accountService.getAccountById(accountId);
         if (!account.isPresent()) {
-            throw new ResourceNotFoundException("Account not found");
+            Body body = new Body();
+            body.setCode(HttpStatus.NOT_FOUND.value());
+            body.setMessage("error fetching account");
+            return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+        }else {
+            Body body = new Body();
+            body.setCode(HttpStatus.OK.value());
+            body.setMessage("Account retrieval Success");
+            return new ResponseEntity<>(body, HttpStatus.OK);
         }
-        Body body = new Body();
-        body.setData(account.get());
-        body.setCode(HttpStatus.OK.value());
-        body.setMessage("Success");
-        return new ResponseEntity<>(body, HttpStatus.OK);
     }
 
 
 
     public ResponseEntity<?> deleteAccount(Long accountId) {
-       accountService.deleteAccount(accountId);
+
+        accountService.deleteAccount(accountId);
         Body body = new Body();
         body.setCode(HttpStatus.NO_CONTENT.value());
         body.setMessage("Account successfully deleted");
-        return new ResponseEntity<>(body,HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(body, HttpStatus.NO_CONTENT);
     }
+
 
 
 
@@ -79,7 +93,7 @@ public class AccountResponse {
         Body body = new Body();
         body.setData(updatedAccount);
         body.setCode(HttpStatus.OK.value());
-        body.setMessage("Account updated successfully");
+        body.setMessage("Customer Account Updated");
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
 

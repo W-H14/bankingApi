@@ -1,4 +1,4 @@
-package com.thecoalition.bankingApi.exceptions;
+package com.thecoalition.bankingApi.handler.exceptions;
 
 public class WithdrawalNotFoundException extends Throwable {
     public WithdrawalNotFoundException(String message) {
