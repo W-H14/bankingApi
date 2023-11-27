@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.thecoalition.bankingApi.dto.Body;
 import com.thecoalition.bankingApi.model.Withdrawal;
 import com.thecoalition.bankingApi.service.WithdrawalService;
+import org.springframework.web.bind.annotation.*;
 
 @Component
 public class WithdrawalResponse {
@@ -38,7 +39,7 @@ public class WithdrawalResponse {
         Withdrawal withdrawal = withdrawalService.getWithdrawalById(withdrawalId);
 
         Body body = new Body();
-        body.setData(withdrawalService.getAllWithdrawalsForAccount(accountId));
+        body.setData(withdrawalService.getWithdrawalById(withdrawalId));
         body.setCode(HttpStatus.OK.value());
         body.setMessage("Success");
         return new ResponseEntity<>(body, HttpStatus.OK);
@@ -63,20 +64,10 @@ public class WithdrawalResponse {
 
     @DeleteMapping("/withdrawals/{withdrawalId}")
     public ResponseEntity<?> deleteWithdrawal(@PathVariable Long withdrawalId) throws WithdrawalNotFoundException {
-
-        body.setData(withdrawal);
+        Body body = new Body();
+        body.setData(withdrawalId);
         body.setCode(HttpStatus.OK.value());
         body.setMessage("Accepted withdrawal modification");
-        return new ResponseEntity<>(body, HttpStatus.OK);
-    }
-
-    
-
-    public ResponseEntity<?> getWithdrawalById(Long withdrawalId) {
-        Body body = new Body();
-        body.setData(withdrawalService.getWithdrawalById(withdrawalId));
-        body.setCode(HttpStatus.OK.value());
-        body.setMessage("Success");
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
 }
