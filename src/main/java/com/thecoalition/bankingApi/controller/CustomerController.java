@@ -20,10 +20,12 @@ public class CustomerController {
 
 
     //get customer that owns the specified account
-    @GetMapping(value = "/account/{accountId}/customer")
+  /*  @GetMapping(value = "/account/{accountId}/customer")
     public ResponseEntity<?> getCustomerByAccountId(@PathVariable Long accountId){
         return new ResponseEntity<>(customerResponse.getCustomersByAccountId(accountId), HttpStatus.OK);
-    }
+    }\
+
+   */
 
     //get customer by Id
     @GetMapping(value = "/customer/{customerId}")
