@@ -14,5 +14,5 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
 
     @Query(value = "SELECT c FROM Customer c WHERE c.accountId = :accountId", nativeQuery = true)
     Iterable<Customer> findCustomersByAccountId(@Param("accountId") Long accountId);
-    
+
 }
