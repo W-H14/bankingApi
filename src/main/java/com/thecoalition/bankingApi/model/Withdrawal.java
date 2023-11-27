@@ -1,15 +1,37 @@
 package com.thecoalition.bankingApi.model;
 
-public class Withdrawal {
-private Long id;
-private String type;
-private String transaction_date;
-private String status;
-private Long payer_id;
-private String medium;
-private Double amount;
-private String description;
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
+@Entity
+public class Withdrawal implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotEmpty
+    @Column(name = "withdrawal_id")
+    private Long id;
+    @Column(name = "withdrawal_type")
+    @NotEmpty
+    private String type;
+    @Column(name = "transaction_date")
+    @NotEmpty
+    private String transaction_date;
+    @Column(name = "status")
+    @NotEmpty
+    private String status;
+    @Column(name = "payer_id")
+    @NotEmpty
+    private Long payer_id;
+    @Column(name = "medium")
+    @NotEmpty
+    private String medium;
+    @Column(name = "amount")
+    @NotEmpty
+    private Double amount;
+    @Column(name = "description")
+    @NotEmpty
+    private String description;
     public Long getId() {
         return id;
     }
