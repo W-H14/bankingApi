@@ -14,43 +14,43 @@ public class Bill{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "id")
     private Long id;
 
 
-    @Column
+    @Column(name = "status")
     private String status;
 
 
-    @Column
+    @Column(name = "payee")
     private String payee;
 
 
-    @Column
+    @Column(name = "nickname")
     private String nickname;
 
 
-    @Column
+    @Column(name = "creation_date")
     private String creation_date;
 
 
-    @Column
+    @Column(name = "payment_date")
     private String payment_date;
 
 
-    @Column
+    @Column(name = "recurring_date")
     private Long recurring_date;
 
 
-    @Column
+    @Column(name = "upcoming_payment")
     private String upcoming_payment;
 
 
-    @Column
+    @Column (name = "account_id")
     private Long account_id;
 
 
-    @Column
+    @Column(name = "payment_amount")
     private Double payment_amount;
 
     public Bill() {
