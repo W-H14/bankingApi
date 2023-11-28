@@ -2,6 +2,7 @@ package com.thecoalition.bankingApi.response;
 
 import com.thecoalition.bankingApi.dto.Body;
 import com.thecoalition.bankingApi.handler.exceptions.ResourceNotFoundException;
+import com.thecoalition.bankingApi.model.Address;
 import com.thecoalition.bankingApi.model.Customer;
 import com.thecoalition.bankingApi.repository.CustomerRepository;
 import com.thecoalition.bankingApi.service.CustomerService;
@@ -21,6 +22,7 @@ public class CustomerResponse {
     public ResponseEntity<?> createCustomer(Customer customer){
         try{
             Customer createdCustomer = customerService.createCustomer(customer);
+
             Body body = new Body();
             body.setData(createdCustomer);
             body.setCode(HttpStatus.CREATED.value());

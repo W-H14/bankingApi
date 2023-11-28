@@ -3,6 +3,7 @@ package com.thecoalition.bankingApi.service;
 import com.thecoalition.bankingApi.handler.exceptions.CustomerNotFoundException;
 import com.thecoalition.bankingApi.handler.exceptions.ResourceNotFoundException;
 import com.thecoalition.bankingApi.model.Account;
+import com.thecoalition.bankingApi.model.Address;
 import com.thecoalition.bankingApi.model.Customer;
 import com.thecoalition.bankingApi.repository.CustomerRepository;
 import org.slf4j.ILoggerFactory;
@@ -31,9 +32,11 @@ public class CustomerService {
     }
 
     //add customer
-    public Customer createCustomer(Customer customer) throws Exception{
-    logger.info("successfully created Customer");
-    return customerRepository.save(customer);
+    public Customer createCustomer(Customer customer) throws CustomerNotFoundException{
+
+        logger.info("successfully created Customer");
+        return customerRepository.save(customer);
+
     }
 
 
