@@ -78,7 +78,7 @@ public class BillController {
         return new ResponseEntity<>(billResponse.getBillByCustomerId(customerId),HttpStatus.OK);
 
     }
-    @GetMapping(value = "/customers/{customerId}/bills")//Action: Get all bills for customer
+    @GetMapping(value = "/customers/{customerId}/allbills")//Action: Get all bills for customer
     public ResponseEntity<?> getAllBillsForCustomer(@PathVariable Long customerId){
         return new ResponseEntity<>(billResponse.getAllBills(customerId),HttpStatus.OK);
     }
