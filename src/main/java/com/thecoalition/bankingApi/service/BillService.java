@@ -50,7 +50,10 @@ package com.thecoalition.bankingApi.service;
 
 import com.thecoalition.bankingApi.handler.exceptions.BillNotFoundException;
 import com.thecoalition.bankingApi.handler.exceptions.ResourceNotFoundException;
+import com.thecoalition.bankingApi.model.Account;
 import com.thecoalition.bankingApi.model.Bill;
+import com.thecoalition.bankingApi.model.Customer;
+import com.thecoalition.bankingApi.repository.AccountRepository;
 import com.thecoalition.bankingApi.repository.BillRepository;
 import com.thecoalition.bankingApi.utility.Status;
 import org.slf4j.Logger;
@@ -64,15 +67,47 @@ import java.util.Optional;
 public class BillService {
     @Autowired
     private BillRepository billRepository;
+    @Autowired
+    private AccountService accountService;
+@Autowired
+    private AccountRepository accountRepository;
+
+
     private final Logger logger = LoggerFactory.getLogger(BillService.class);
-    public Bill createBill(Bill bill){
+
+
+
+    public void verifyAccount(Long accountId) throws ResourceNotFoundException {
+        Optional<Bill> bill = billRepository.findById(accountId);
+        if (bill.isEmpty()) {
+            logger.error("Account Not Verified");
+            throw new ResourceNotFoundException("Account with id " + accountId + " not found");
+        }
+    }
+    public Bill createBill(Bill bill, Long accountId){
+        try {
+            var account = accountRepository.findById(accountId);
+          if (account.isEmpty()){
+              throw new ResourceNotFoundException("Account not found");
+          }bill.setAccount(account.get());
+            return billRepository.save(bill);
+        } catch (Exception e) {
+            logger.error("Error creating bill: Account not found", e);
+            throw new ResourceNotFoundException("Error creating bill: Account not found");
+
+        }
+   /*     verifyAccount(accountId);
+        logger.info("Account verified");
         try {
             logger.info("Bill created");
+            bill.setAccount(accountRepository.findById(accountId).get());
             return billRepository.save(bill);
         } catch (Exception e) {
             logger.error("Error creating bill: Account not found", e);
             throw new ResourceNotFoundException("Error creating bill: Account not found");
         }
+
+    */
     }
 
     public Iterable<Bill> getBills(){
@@ -140,7 +175,7 @@ public class BillService {
         existingBill.setPayment_date(bill.getPayment_date());
         existingBill.setRecurring_date(bill.getRecurring_date());
         existingBill.setUpcoming_payment(bill.getUpcoming_payment());
-        existingBill.setAccount_id(bill.getAccount_id());
+        existingBill.setAccount(bill.getAccount());
         existingBill.setPayment_amount(bill.getPayment_amount());
 
         logger.info("Successfully updated Bill");
