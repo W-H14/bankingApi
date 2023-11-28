@@ -136,7 +136,7 @@ public class CustomerResponse {
             return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-   /* public ResponseEntity<?> getCustomersByAccountId(Long accountId) {
+    public ResponseEntity<?> getCustomersByAccountId(Long accountId) {
         try {
             Iterable<Customer> customers = customerService.getCustomerByAccountId(accountId);
 
@@ -163,6 +163,6 @@ public class CustomerResponse {
         }
     }
 
-    */
+
 
 }

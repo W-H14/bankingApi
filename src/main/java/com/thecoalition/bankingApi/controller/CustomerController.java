@@ -22,19 +22,18 @@ public class CustomerController {
 
 
     //get customer that owns the specified account
-  /*  @GetMapping(value = "/account/{accountId}/customer")
+    @GetMapping(value = "/accounts/{accountId}/customer")
     public ResponseEntity<?> getCustomerByAccountId(@PathVariable Long accountId){
         return new ResponseEntity<>(customerResponse.getCustomersByAccountId(accountId), HttpStatus.OK);
-    }\
+    }
 
-   */
 
     /**
      * get customer by Id
      * @param customerId
      * @return
      */
-    @GetMapping(value = "/customer/{customerId}")
+    @GetMapping(value = "/customers/{customerId}")
     public ResponseEntity<?> getCustomerById(@PathVariable Long customerId){
         return new ResponseEntity<>(customerResponse.getCustomerById(customerId), HttpStatus.OK);
     }
