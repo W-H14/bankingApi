@@ -41,10 +41,12 @@ public class CustomerService {
     //get all customers
     public Iterable<Customer> getAllCustomers() throws CustomerNotFoundException{
     logger.info("successfully retrieved all customers");
-    if(!getAllCustomers().iterator().hasNext()){
+        Iterable<Customer> customers = customerRepository.findAll();
+
+        if(!customers.iterator().hasNext()){
         throw new CustomerNotFoundException("“error fetching accounts");
     }
-        return customerRepository.findAll();
+        return customers;
     }
 
     //get customers by AccountID Iterable<>
