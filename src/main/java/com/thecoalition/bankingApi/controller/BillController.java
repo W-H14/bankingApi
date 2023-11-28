@@ -78,10 +78,17 @@ public class BillController {
         return new ResponseEntity<>(billResponse.getBillByCustomerId(customerId),HttpStatus.OK);
 
     }
-//    @GetMapping(value = "/customers/{customerId}/bills")//Action: Get all bills for customer
-//    public ResponseEntity<?> getAllBillsForCustomer(@PathVariable Long customerId){
-//        return new ResponseEntity<>(billResponse.getAllBills(customerId),HttpStatus.OK);
-//    }
+
+    @GetMapping(value = "/customers/{customerId}/bills")//Action: Get all bills for customer
+    public ResponseEntity<?> getAllBillsForCustomer(@PathVariable Long customerId){
+        return new ResponseEntity<>(billResponse.getAllBills(customerId),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/customers/{customerId}/allbills")//Action: Get all bills for customer
+    public ResponseEntity<?> getAllBillsForCustomer(@PathVariable Long customerId){
+        return new ResponseEntity<>(billResponse.getAllBills(customerId),HttpStatus.OK);
+    }
+>>>>>>> b0e16680c74263048025e24fc04c26e4d1195366
 
 
     @PostMapping(value = "/accounts/{accountId}/bills")// create a bill
