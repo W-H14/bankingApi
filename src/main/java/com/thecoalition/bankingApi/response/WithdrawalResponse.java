@@ -73,11 +73,11 @@ public class WithdrawalResponse {
 
     @DeleteMapping("/withdrawals/{withdrawalId}")
     public ResponseEntity<?> deleteWithdrawal(@PathVariable Long withdrawalId) throws WithdrawalNotFoundException {
+        withdrawalService.deleteWithdrawal(withdrawalId);
         Body body = new Body();
-        body.setData(withdrawalId);
-        body.setCode(HttpStatus.OK.value());
-        body.setMessage("Accepted withdrawal modification");
-        return new ResponseEntity<>(body, HttpStatus.OK);
+        body.setCode(HttpStatus.NO_CONTENT.value());
+        body.setMessage("Withdrawal deleted successfully");
+        return new ResponseEntity<>(body, HttpStatus.NO_CONTENT);
     }
 }
 

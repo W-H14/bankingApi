@@ -39,7 +39,6 @@ public class AccountController {
 
     }
 
-
     /**
      * Delete an account
      * @param accountId
@@ -49,7 +48,6 @@ public class AccountController {
     public ResponseEntity<?> deleteAccount(@PathVariable Long accountId){
          return new ResponseEntity<> (accountResponse.deleteAccount(accountId), HttpStatus.NO_CONTENT);
     }
-
 
     /**
      * Get all accounts
@@ -71,7 +69,6 @@ public class AccountController {
       return new ResponseEntity<>(accountResponse.getAccountById(accountId),HttpStatus.OK) ;
     }
 
-
     /**
      * Update an account
      * @param accountId
@@ -82,7 +79,5 @@ public class AccountController {
     public ResponseEntity<?> updateAccount(@PathVariable Long accountId, @RequestBody Account updatedAccount){
         return new ResponseEntity<> (accountResponse.updateAccount(updatedAccount, accountId), HttpStatus.OK);
     }
-
-
 
 }
