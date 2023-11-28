@@ -53,9 +53,10 @@ public class CustomerService {
     }
 
     //get customers by AccountID Iterable<>
-  /*  public Iterable<Customer> getCustomerByAccountId(Long accountId){
-        Customer findCustomerByAccount = new Customer();
+    public Iterable<Customer> getCustomerByAccountId(Long accountId){
+        Customer findCustomerByAccountId = new Customer();
         logger.info("Successfully retrieved customer by account Id");
+
         if(accountId == null){
             throw new CustomerNotFoundException("Error Fetching Account");
         }
@@ -63,7 +64,7 @@ public class CustomerService {
         return customerRepository.findCustomersByAccountId(accountId);
     }
 
-   */
+
 
 
     //get customers by ID Optional<>
