@@ -1,9 +1,10 @@
 package com.thecoalition.bankingApi.response;
 
+import com.thecoalition.bankingApi.handler.exceptions.ResourceNotFoundException;
 import com.thecoalition.bankingApi.model.Account;
 import com.thecoalition.bankingApi.service.AccountService;
 import com.thecoalition.bankingApi.service.CustomerService;
-import org.apache.velocity.exception.ResourceNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

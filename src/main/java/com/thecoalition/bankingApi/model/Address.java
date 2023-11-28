@@ -29,6 +29,10 @@ public class Address {
     @Column(name = "zipcode")
     private String zipCode;
 
+    @ManyToOne
+    @JoinColumn(name = "customer_Id")//foreign key for column
+    private Customer customer;
+
     public Address(){
 
     }

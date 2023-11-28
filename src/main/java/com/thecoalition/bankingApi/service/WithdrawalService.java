@@ -24,14 +24,14 @@ public class WithdrawalService {
         this.withdrawalRepository = withdrawalRepository;
     }
 
-    public Iterable<Withdrawal> getAllWithdrawalsForAccount(Long accountId) {
+    public Optional<Withdrawal> getAllWithdrawalsForAccount(Long accountId) {
         Iterable<Withdrawal>withdrawals = withdrawalRepository.findAll();
         if (!withdrawals.iterator().hasNext()) {
             logger.error("Account not found");
             throw new ResourceNotFoundException("Account not found");
         }
         logger.info("Successfully gotten all withdraws for account");
-        return withdrawalRepository.findAllById(accountId);
+        return withdrawalRepository.findByPayerId(accountId);
     }
 
     public Withdrawal getWithdrawalById(Long withdrawalId) throws WithdrawalNotFoundException {

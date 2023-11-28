@@ -34,8 +34,10 @@ public class WithdrawalController {
     }
 
     @PutMapping("/withdrawals/{withdrawalId}")
+
     public ResponseEntity<?> updateWithdrawal(@RequestBody Withdrawal updatedWithdrawal, @PathVariable Long withdrawalId) throws WithdrawalNotFoundException {
         return withdrawalResponse.updateWithdrawal(updatedWithdrawal, withdrawalId);
+
     }
 
     @DeleteMapping("/withdrawals/{withdrawalId}")

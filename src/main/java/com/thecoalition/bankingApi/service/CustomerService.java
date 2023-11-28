@@ -18,10 +18,8 @@ public class CustomerService {
 
     @Autowired
     CustomerRepository customerRepository;
-    @Autowired
-    Account account;
-    @Autowired
-    AddressService addressService;
+
+
 
     private final Logger logger = LoggerFactory.getLogger(CustomerService.class);
 
@@ -50,7 +48,7 @@ public class CustomerService {
     }
 
     //get customers by AccountID Iterable<>
-    public Iterable<Customer> getCustomerByAccountId(Long accountId){
+  /*  public Iterable<Customer> getCustomerByAccountId(Long accountId){
         Customer findCustomerByAccount = new Customer();
         logger.info("Successfully retrieved customer by account Id");
         if(accountId == null){
@@ -59,6 +57,8 @@ public class CustomerService {
 
         return customerRepository.findCustomersByAccountId(accountId);
     }
+
+   */
 
 
     //get customers by ID Optional<>
