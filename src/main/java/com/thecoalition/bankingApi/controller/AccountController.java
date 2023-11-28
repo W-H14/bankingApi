@@ -55,7 +55,7 @@ public class AccountController {
      * Get all accounts
      * @return
      */
-@GetMapping(value = "/accounts")
+    @GetMapping(value = "/accounts")
     public ResponseEntity<?> getAllAccounts(){
 
     return  new ResponseEntity<>  (accountResponse.getAllAccounts(), HttpStatus.OK);

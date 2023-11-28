@@ -14,34 +14,57 @@ import java.util.Optional;
 
 @RestController
 public class DepositController {
+
     @Autowired
     private DepositService depositService;
 
-
+    /**
+     * gets all deposits for an account
+     * @param accountId
+     * @return
+     */
     @RequestMapping(value="/accounts/{accountId}/deposits", method= RequestMethod.GET)
     public ResponseEntity<Optional<Deposit>> getAll(@PathVariable Long accountId){
-//        Optional<Deposit> deposit = depositService.getAllDeposits(accountId); // Modify this based on your requirements
-//        return ResponseEntity.of(deposit)
         return new ResponseEntity<>(depositService.getAllDeposits(accountId), HttpStatus.OK);
     }
 
+    /**
+     * get deposit by Id
+     * @param depositId
+     * @return
+     */
     @GetMapping("/deposits/{depositId}")
     @ResponseStatus(HttpStatus.OK)
     public Optional<Deposit> getById(@PathVariable Long depositId){
         return depositService.getDeposit(depositId);
     }
 
-
+    /**
+     * creates deposit
+     * @param accountId
+     * @param deposit
+     */
     @PostMapping("/accounts/{accountId}/deposits")
     @ResponseStatus(HttpStatus.CREATED)
     public void createDeposit(@PathVariable Long accountId, @RequestBody Deposit deposit){
        depositService.createDeposit(accountId, deposit);
     }
-    @PutMapping("/deposits/{depositId}")
 
+    /**
+     * edits a deposit
+     * @param depositId
+     * @param deposit
+     * @return
+     */
+    @PutMapping("/deposits/{depositId}")
     public Deposit editDeposit(@PathVariable Long depositId, @RequestBody Deposit deposit){
         return depositService.editDeposit(depositId, deposit);
     }
+
+    /**
+     * deletes a deposit
+     * @param depositId
+     */
     @DeleteMapping("/deposit/{depositId}")
     @ResponseStatus(HttpStatus.NO_CONTENT) // Use HttpStatus.CREATED for 201 status
     public void deleteDeposit(@Valid @PathVariable Long depositId) {
