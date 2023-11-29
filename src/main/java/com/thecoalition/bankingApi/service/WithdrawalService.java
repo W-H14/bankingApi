@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class WithdrawalService {
@@ -28,7 +29,7 @@ public class WithdrawalService {
         this.withdrawalRepository = withdrawalRepository;
     }
 
-    public Optional<Withdrawal> getAllWithdrawalsForAccount(Long accountId) {
+    public Set<Withdrawal> getAllWithdrawalsForAccount(Long accountId) {
         Iterable<Withdrawal> withdrawals = withdrawalRepository.findAll();
         if (!withdrawals.iterator().hasNext()) {
             logger.error("Account not found");
