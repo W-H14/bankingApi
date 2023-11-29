@@ -21,11 +21,7 @@ public class CustomerController {
     //may need an additional autowired
 
 
-    //get customer that owns the specified account
-    @GetMapping(value = "/accounts/{accountId}/customer")
-    public ResponseEntity<?> getCustomerByAccountId(@PathVariable Long accountId){
-        return new ResponseEntity<>(customerResponse.getCustomersByAccountId(accountId), HttpStatus.OK);
-    }
+
 
 
     /**

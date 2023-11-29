@@ -11,13 +11,7 @@ import java.util.List;
 
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
-  //  Iterable<Customer> findCustomersByAccountId(Long accountId);
-
-//   phone notes
-//    List<Customer> findByFirstName(String firstName);
-//    List<Customer>findByLastName(String lastName);
-//    List<Customer>findByFirstNameAndLastName(String firstName, String lastName);
-//    List<Customer> findByAddress(String city);
+  
 @Query(value = "SELECT c FROM Customer c WHERE c.accountId = :accountId", nativeQuery = true)
 Iterable<Customer> findCustomersByAccountId(@Param("accountId") Long accountId);
 }
