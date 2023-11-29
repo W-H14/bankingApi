@@ -6,6 +6,7 @@ import com.thecoalition.bankingApi.model.Account;
 import com.thecoalition.bankingApi.model.Customer;
 import com.thecoalition.bankingApi.repository.AccountRepository;
 import com.thecoalition.bankingApi.handler.exceptions.ResourceNotFoundException;
+import com.thecoalition.bankingApi.repository.CustomerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,13 @@ public class AccountService {
     @Autowired
     private CustomerService customerService;
 
+    @Autowired
+    private CustomerRepository customerRepository;
+
 
     private final org.slf4j.Logger logger = LoggerFactory.getLogger(AccountService.class);
 
-    public void verifyCostumer(Long CostumerId) throws ResourceNotFoundException {
+    public void verifyCostumer(Long CostumerId)  {
         Optional<Customer> costumer = customerService.getCustomerById(CostumerId);
         if (costumer.isEmpty()) {
             logger.error("Customer Not Verified");
@@ -53,12 +57,19 @@ public class AccountService {
         return AccountRepo.findAll();
     }
 
+
+
+
+
     public Account createAccount(Long customerId, Account account) {
         verifyCostumer(customerId);
 
         try {
             logger.info("Successfully created Account");
+            Customer getCustomer = customerRepository.findById(customerId).get();
+            account.setCustomer(getCustomer);
             return AccountRepo.save(account);
+
         } catch (Exception e) {
             logger.error("Error fetching creating customers account", e);
             throw new RuntimeException("Error fetching creating customers account");

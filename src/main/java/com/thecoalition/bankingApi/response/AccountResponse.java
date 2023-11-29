@@ -27,7 +27,6 @@ public class AccountResponse {
 
 
     public ResponseEntity<?> createAccount(Long costumerId, Account account) {
-        accountService.verifyCostumer(costumerId);
         accountService.createAccount(costumerId, account);
         Body body = new Body();
         body.setData(account);

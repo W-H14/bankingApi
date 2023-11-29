@@ -10,40 +10,39 @@ public class Address {
     private Long id;
 
 
-    @Column(name = "street_number")
+
     private String streetNumber;
 
 
-    @Column(name = "street_name")
+
     private String streetName;
 
 
-    @Column(name = "city")
+
     private String city;
 
 
-    @Column(name = "state")
+
     private String state;
 
 
-    @Column(name = "zipcode")
+
     private String zipCode;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_Id")//foreign key for column
-    private Customer customer;
+
 
     public Address(){
 
     }
-    public Address(Long id, String streetNumber, String streetName, String city, String state, String zipCode) {
-        this.id = id;
-        this.streetNumber = streetNumber;
-        this.streetName = streetName;
-        this.city = city;
-        this.state = state;
-        this.zipCode = zipCode;
-    }
+
+//    public Address(Long id, String streetNumber, String streetName, String city, String state, String zipCode) {
+//        this.id = id;
+//        this.streetNumber = streetNumber;
+//        this.streetName = streetName;
+//        this.city = city;
+//        this.state = state;
+//        this.zipCode = zipCode;
+//    }
 
     public Long getId() {
         return id;

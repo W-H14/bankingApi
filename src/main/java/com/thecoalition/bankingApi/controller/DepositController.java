@@ -22,48 +22,56 @@ public class DepositController {
     @Autowired
     private DepositResponse depositResponse;
 
+    /**
+     * gets all deposit for an account
+     * @param payeeId
+     * @return
+     */
     @RequestMapping(value = "/accounts/{accountId}/deposits", method = RequestMethod.GET)
     public ResponseEntity<?> getAll(@PathVariable Long payeeId) {
-//        Optional<Deposit> deposit = depositService.getAllDeposits(accountId); // Modify this based on your requirements
-//        return ResponseEntity.of(deposit)
         return new ResponseEntity<>(depositResponse.getAllDeposit(payeeId), HttpStatus.OK);
     }
 
-    //    @GetMapping("/deposits/{depositId}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public Optional<Deposit> getById(@PathVariable Long depositId){
-//        return depositService.getDeposit(depositId);
-//    }
+
+    /**
+     * gets deposit by id
+     * @param depositId
+     * @return
+     */
     @GetMapping("/deposits/{depositId}")
     public ResponseEntity<?> getById(@PathVariable Long depositId) {
         return new ResponseEntity<>(depositResponse.getDeposit(depositId), HttpStatus.OK);
     }
 
-//    @PostMapping("/accounts/{accountId}/deposits")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public void createDeposit(@PathVariable Long accountId, @RequestBody Deposit deposit) {
-//        depositService.createDeposit(accountId, deposit);
-//    }
+    /**
+     * creates deposit
+     * @param accountId
+     * @param deposit
+     * @return
+     */
     @PostMapping(value = "/accounts/{accountId}/deposits")
     public ResponseEntity<?> createDeposit(@PathVariable Long accountId, @RequestBody Deposit deposit) {
         return new ResponseEntity<> (depositResponse.createDeposit(accountId, deposit), HttpStatus.CREATED);
 
     }
-//    @PutMapping("/deposits/{depositId}")
-//    public Deposit editDeposit(@PathVariable Long depositId, @RequestBody Deposit deposit) {
-//        return depositService.editDeposit(depositId, deposit);
-//    }
+
+    /**
+     * updates deposit
+     * @param depositId
+     * @param deposit
+     * @return
+     */
     @PutMapping("/deposits/{depositId}")
     public ResponseEntity<?> updateDeposit(@PathVariable Long depositId, @RequestBody Deposit deposit){
         return new ResponseEntity<> (depositResponse.editDeposit(depositId,deposit), HttpStatus.OK);
     }
 
-//    @DeleteMapping("/deposit/{depositId}")
-//    @ResponseStatus(HttpStatus.NO_CONTENT) // Use HttpStatus.CREATED for 201 status
-//    public void deleteDeposit(@Valid @PathVariable Long depositId) {
-//        depositService.deleteDeposit(depositId);
-//    }
 
+    /**
+     * deletes deposit
+     * @param depositId
+     * @return
+     */
     @DeleteMapping(value = "/deposit/{depositId}")
     public ResponseEntity<?> deleteDeposit(@PathVariable Long depositId) {
         return new ResponseEntity<>(depositResponse.deleteDeposit(depositId), HttpStatus.NO_CONTENT);

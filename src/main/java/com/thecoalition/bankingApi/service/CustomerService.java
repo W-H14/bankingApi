@@ -3,6 +3,7 @@ package com.thecoalition.bankingApi.service;
 import com.thecoalition.bankingApi.handler.exceptions.CustomerNotFoundException;
 import com.thecoalition.bankingApi.handler.exceptions.ResourceNotFoundException;
 import com.thecoalition.bankingApi.model.Account;
+import com.thecoalition.bankingApi.model.Address;
 import com.thecoalition.bankingApi.model.Customer;
 import com.thecoalition.bankingApi.repository.CustomerRepository;
 import org.slf4j.ILoggerFactory;
@@ -31,9 +32,11 @@ public class CustomerService {
     }
 
     //add customer
-    public Customer createCustomer(Customer customer) throws Exception{
-    logger.info("successfully created Customer");
-    return customerRepository.save(customer);
+    public Customer createCustomer(Customer customer) throws CustomerNotFoundException{
+
+        logger.info("successfully created Customer");
+        return customerRepository.save(customer);
+
     }
 
 
@@ -41,16 +44,19 @@ public class CustomerService {
     //get all customers
     public Iterable<Customer> getAllCustomers() throws CustomerNotFoundException{
     logger.info("successfully retrieved all customers");
-    if(!getAllCustomers().iterator().hasNext()){
+        Iterable<Customer> customers = customerRepository.findAll();
+
+        if(!customers.iterator().hasNext()){
         throw new CustomerNotFoundException("“error fetching accounts");
     }
-        return customerRepository.findAll();
+        return customers;
     }
 
     //get customers by AccountID Iterable<>
-  /*  public Iterable<Customer> getCustomerByAccountId(Long accountId){
-        Customer findCustomerByAccount = new Customer();
+    public Iterable<Customer> getCustomerByAccountId(Long accountId){
+        Customer findCustomerByAccountId = new Customer();
         logger.info("Successfully retrieved customer by account Id");
+
         if(accountId == null){
             throw new CustomerNotFoundException("Error Fetching Account");
         }
@@ -58,7 +64,7 @@ public class CustomerService {
         return customerRepository.findCustomersByAccountId(accountId);
     }
 
-   */
+
 
 
     //get customers by ID Optional<>
