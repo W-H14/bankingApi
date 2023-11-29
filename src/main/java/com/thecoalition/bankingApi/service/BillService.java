@@ -50,12 +50,9 @@ package com.thecoalition.bankingApi.service;
 
 import com.thecoalition.bankingApi.handler.exceptions.BillNotFoundException;
 import com.thecoalition.bankingApi.handler.exceptions.ResourceNotFoundException;
-import com.thecoalition.bankingApi.model.Account;
 import com.thecoalition.bankingApi.model.Bill;
-import com.thecoalition.bankingApi.model.Customer;
 import com.thecoalition.bankingApi.repository.AccountRepository;
 import com.thecoalition.bankingApi.repository.BillRepository;
-import com.thecoalition.bankingApi.utility.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,13 +126,14 @@ public class BillService {
     }
 
 
-    public void getAllCustomerBills()throws ResourceNotFoundException{
+    public Optional<Bill> getAllCustomerBills(Long customer_Id )throws ResourceNotFoundException{
         try {
-            billRepository.findAll();
+            billRepository.findById(customer_Id);
         } catch (Exception e) {
             logger.error("Error fetching bills", e);
             throw new BillNotFoundException("Error fetching bills");
         }
+        return billRepository.findById(customer_Id);
     }
 
     public Optional<Bill> getBillByAccount(Long account_id) {
@@ -152,6 +150,7 @@ public class BillService {
         logger.info("Trying to retrieve bill by Bill ID");
 
         Optional<Bill> optionalBill = billRepository.findById(billId);
+
         if (optionalBill.isEmpty()) {
             logger.error("Error fetching bill with id: " + billId);
             throw new BillNotFoundException("Error fetching bill with id: " + billId);
@@ -160,7 +159,7 @@ public class BillService {
         return optionalBill;
     }
 
-    public void editBill(Long billId, Bill bill){
+    public Bill editBill(Long billId, Bill bill){
         Optional<Bill> existingBillOptional = billRepository.findById(billId);
         if (existingBillOptional.isEmpty()) {
             logger.error("Bill ID does not exist");
@@ -180,6 +179,7 @@ public class BillService {
 
         logger.info("Successfully updated Bill");
         billRepository.save(existingBill);
+        return existingBill;
     }
 
     public void removeBill(Long id){
@@ -189,6 +189,7 @@ public class BillService {
         }
         logger.info("Bill was Successfully deleted");
         billRepository.deleteById(id);
+
     }
 
     }
