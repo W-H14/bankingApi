@@ -15,7 +15,6 @@ import java.util.Optional;
 
 public interface WithdrawalRepository extends CrudRepository<Withdrawal, Long> {
 
-    @Query(value = "SELECT w.* FROM Withdrawal w WHERE w.payer_id = :accountId",nativeQuery = true)
+    @Query(value = "SELECT w.* FROM Withdraw\nal w WHERE w.payer_id = :accountId",nativeQuery = true)
     Optional<Withdrawal> findByPayerId(@Param("accountId") Long accountId);
 }
-
