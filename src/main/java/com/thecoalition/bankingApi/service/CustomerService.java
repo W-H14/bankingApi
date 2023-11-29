@@ -52,21 +52,6 @@ public class CustomerService {
         return customers;
     }
 
-    //get customers by AccountID Iterable<>
-    public Iterable<Customer> getCustomerByAccountId(Long accountId){
-        Customer findCustomerByAccountId = new Customer();
-        logger.info("Successfully retrieved customer by account Id");
-
-        if(accountId == null){
-            throw new CustomerNotFoundException("Error Fetching Account");
-        }
-
-        return customerRepository.findCustomersByAccountId(accountId);
-    }
-
-
-
-
     //get customers by ID Optional<>
     public Optional<Customer> getCustomerById(Long customerId) throws CustomerNotFoundException{
         logger.info("Successfully retrieved customer by customer ID");
