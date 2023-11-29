@@ -5,22 +5,25 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @Entity
-public class Withdrawal implements Serializable {
+public class Withdrawal {
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotEmpty
-    @Column(name = "withdrawal_id")
+    @Column(name = "withdrawalId")
     private Long id;
-    @Column(name = "withdrawal_type")
+    @Column(name = "withdrawalType")
     @NotEmpty
     private String type;
-    @Column(name = "transaction_date")
+    @Column(name = "transactionDate")
     @NotEmpty
     private String transaction_date;
     @Column(name = "status")
     @NotEmpty
     private String status;
-    @Column(name = "payer_id")
+    @Column(name = "payerId")
     @NotEmpty
     private Long payer_id;
     @Column(name = "medium")
@@ -94,6 +97,14 @@ public class Withdrawal implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public Withdrawal(Long id, String type, String transaction_date, String status, Long payer_id, String medium, Double amount, String description) {
