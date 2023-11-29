@@ -33,18 +33,17 @@ public class WithdrawalResponse {
     }
 
     public ResponseEntity<?> createWithdrawal(Long accountId, Withdrawal withdrawal) {
-        withdrawalService.createWithdrawal(accountId, withdrawal);
-        accountService.verifyCostumer(accountId);
+        Withdrawal withdrawal1 = withdrawalService.createWithdrawal(accountId, withdrawal);
         Body body = new Body();
-        body.setData(withdrawal);
+        body.setData(withdrawal1);
         body.setCode(HttpStatus.CREATED.value());
         body.setMessage("Created withdrawal and deducted it from the account");
         return new ResponseEntity<>(body, HttpStatus.CREATED);
     }
 
 
-    @GetMapping("/withdrawals/{withdrawalId}")
-    public ResponseEntity<?> getWithdrawalById(@PathVariable Long withdrawalId) throws WithdrawalNotFoundException {
+
+    public ResponseEntity<?> getWithdrawalById(Long withdrawalId) throws WithdrawalNotFoundException {
         Withdrawal withdrawal = withdrawalService.getWithdrawalById(withdrawalId);
 
         Body body = new Body();
@@ -56,23 +55,18 @@ public class WithdrawalResponse {
 
    
 
-    @PutMapping("/withdrawals/{withdrawalId}")
-    public ResponseEntity<?> updateWithdrawal(@RequestBody Withdrawal updatedWithdrawal, @PathVariable Long withdrawalId) throws WithdrawalNotFoundException {
+    public ResponseEntity<?> updateWithdrawal(Withdrawal updatedWithdrawal, Long withdrawalId) throws WithdrawalNotFoundException {
         Withdrawal updatedWithdrawalResult = withdrawalService.updateWithdrawal(withdrawalId, updatedWithdrawal);
         Body body = new Body();
-        if (updatedWithdrawalResult != null) {
             body.setData(updatedWithdrawalResult);
             body.setCode(HttpStatus.OK.value());
             body.setMessage("Withdrawal updated successfully");
-        } else {
-            body.setCode(HttpStatus.NOT_FOUND.value());
-            body.setMessage("Withdrawal not found");
-        }
+
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
 
-    @DeleteMapping("/withdrawals/{withdrawalId}")
-    public ResponseEntity<?> deleteWithdrawal(@PathVariable Long withdrawalId) throws WithdrawalNotFoundException {
+
+    public ResponseEntity<?> deleteWithdrawal(Long withdrawalId) throws WithdrawalNotFoundException {
         withdrawalService.deleteWithdrawal(withdrawalId);
         Body body = new Body();
         body.setCode(HttpStatus.NO_CONTENT.value());
