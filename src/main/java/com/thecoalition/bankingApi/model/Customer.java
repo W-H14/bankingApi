@@ -27,8 +27,8 @@ public class Customer {
     @OrderBy
    private Set<Address> addresses;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Account> accounts;
+   // @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+  // private Set<Account> accounts;
 
 
     public Customer() {

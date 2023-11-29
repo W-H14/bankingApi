@@ -46,7 +46,7 @@ public class AccountController {
      */
     @DeleteMapping(value = "/accounts/{accountId}")
     public ResponseEntity<?> deleteAccount(@PathVariable Long accountId){
-         return new ResponseEntity<> (accountResponse.deleteAccount(accountId), HttpStatus.NO_CONTENT);
+         return accountResponse.deleteAccount(accountId);
     }
 
     /**
@@ -66,7 +66,7 @@ public class AccountController {
      */
     @GetMapping("/accounts/{accountId}")
     public ResponseEntity<?> getAccountById(@PathVariable Long accountId){
-      return new ResponseEntity<>(accountResponse.getAccountById(accountId),HttpStatus.OK) ;
+      return accountResponse.getAccountById(accountId)   ;
     }
 
     /**
@@ -77,7 +77,7 @@ public class AccountController {
      */
     @PutMapping("/accounts/{accountId}")
     public ResponseEntity<?> updateAccount(@PathVariable Long accountId, @RequestBody Account updatedAccount){
-        return new ResponseEntity<> (accountResponse.updateAccount(updatedAccount, accountId), HttpStatus.OK);
+        return accountResponse.updateAccount(updatedAccount, accountId);
     }
 
 }

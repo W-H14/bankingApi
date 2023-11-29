@@ -81,12 +81,14 @@ public class AccountService {
     public Account updateAccount(Account updatedAccount, Long accountId) throws AccountNotFoundException{
         // Save the entity
         Optional<Account> accountOptional = AccountRepo.findById(accountId);
-if (accountOptional.isEmpty()) {
-    Account editThisAccount = getAccountById(accountId).get();
+if (accountOptional.isPresent()) {
+    Account editThisAccount = accountOptional.get();
     editThisAccount.setBalance(updatedAccount.getBalance());
     editThisAccount.setType(updatedAccount.getType());
     editThisAccount.setNickname(updatedAccount.getNickname());
     editThisAccount.setRewardPoints(updatedAccount.getRewardPoints());
+
+
 
     logger.info("Account was Successfully Updated");
     return AccountRepo.save(editThisAccount);
@@ -100,15 +102,11 @@ if (accountOptional.isEmpty()) {
 
 
 
-        public void deleteAccount (Long accountId) throws AccountNotFoundException{
-            if (!AccountRepo.existsById(accountId)) {
-                logger.error("Account does not exist");
-                throw new AccountNotFoundException("Account does not exist");
-            }
-
-            logger.info("Successfully deleted Account");
-            AccountRepo.deleteById(accountId);
-        }
+    public void deleteAccount(Long accountId){
+Account account = AccountRepo.findById(accountId).get();
+        AccountRepo.delete(account);
+        logger.info("Account deleted successfully");
+    }
 
     }
 

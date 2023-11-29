@@ -57,7 +57,6 @@ public class AccountResponse {
 
 
     public ResponseEntity<?> getAccountById(Long accountId) throws ResourceNotFoundException {
-
         Optional<Account> account = accountService.getAccountById(accountId);
 
             Body body = new Body();
@@ -86,9 +85,10 @@ public class AccountResponse {
 
 
     public ResponseEntity<?> updateAccount(Account updatedAccount, Long accountId) {
-        accountService.updateAccount(updatedAccount, accountId);
+        Account account =accountService.updateAccount(updatedAccount, accountId);
+
         Body body = new Body();
-        body.setData(updatedAccount);
+        body.setData(account);
         body.setCode(HttpStatus.OK.value());
         body.setMessage("Customer Account Updated");
         return new ResponseEntity<>(body, HttpStatus.OK);
