@@ -109,13 +109,13 @@ public class BillController {
     /**
      * creates a bill
      * @param bill
-     * @param billId
+     * @param
      * @return
      */
     @PostMapping(value = "/accounts/{accountId}/bills")// create a bill
-    public ResponseEntity<?> createBill(@RequestBody Bill bill, @PathVariable Long billId){
-        bill = billService.createBill(bill);
-        return new ResponseEntity<>(billResponse.createBill(billId,bill),HttpStatus.CREATED);
+    public ResponseEntity<?> createBill(@RequestBody Bill bill, @PathVariable Long accountId){
+
+        return billResponse.createBill(accountId, bill);
     }
 
     /**
@@ -137,8 +137,8 @@ public class BillController {
      */
     @DeleteMapping(value = "/bills/{billId}")// delete a specific existing bill
     public ResponseEntity<?> removeBillById(@PathVariable Long billId){
-        billService.removeBill(billId);
-        return new ResponseEntity<>(billResponse.removeBillById(billId),HttpStatus.NO_CONTENT);
+
+        return billResponse.removeBillById(billId);
     }
 }
 

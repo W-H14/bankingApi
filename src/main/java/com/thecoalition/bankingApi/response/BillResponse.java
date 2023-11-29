@@ -46,11 +46,13 @@ public class  BillResponse {
         return new ResponseEntity<>(body,HttpStatus.OK);
     }
 
-    public ResponseEntity<?> createBill(Long bilId, Bill bill ) {
-        billService.createBill(bill);
+    public ResponseEntity<?> createBill(Long accountId, Bill bill ) {
+
+
+        Bill bill1 = billService.createBill(bill, accountId);
 
         Body body = new Body();
-        body.setData(bill);
+        body.setData(bill1);
         body.setCode(HttpStatus.CREATED.value());
         body.setMessage("Created bill and added it to the account");
         return new ResponseEntity<>(body, HttpStatus.CREATED);

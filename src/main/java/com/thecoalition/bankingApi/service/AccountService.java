@@ -76,38 +76,37 @@ public class AccountService {
         }
     }
 
+
+
     public Account updateAccount(Account updatedAccount, Long accountId) throws AccountNotFoundException{
         // Save the entity
         Optional<Account> accountOptional = AccountRepo.findById(accountId);
+if (accountOptional.isPresent()) {
+    Account editThisAccount = accountOptional.get();
+    editThisAccount.setBalance(updatedAccount.getBalance());
+    editThisAccount.setType(updatedAccount.getType());
+    editThisAccount.setNickname(updatedAccount.getNickname());
+    editThisAccount.setRewardPoints(updatedAccount.getRewardPoints());
 
-        if (accountOptional.isEmpty()) {
-            logger.error("Couldn't update Account");
-            throw new AccountNotFoundException("Error");
-        }
 
-        Account existingAccount = accountOptional.get();
 
-        existingAccount.setBalance(updatedAccount.getBalance());
-        existingAccount.setNickname(updatedAccount.getNickname());
-        existingAccount.setType(updatedAccount.getType());
-        existingAccount.setRewardPoints(updatedAccount.getRewardPoints());
-
-        logger.info("Successfully Updated Account");
-        return existingAccount;
+    logger.info("Account was Successfully Updated");
+    return AccountRepo.save(editThisAccount);
+}else {
+        logger.error("Unsuccessful Attempt to edit. Account not found");
+        throw new AccountNotFoundException("Error updating Account with id " + accountId );
     }
+}
 
 
 
 
-        public void deleteAccount (Long accountId) throws AccountNotFoundException{
-            if (!AccountRepo.existsById(accountId)) {
-                logger.error("Account does not exist");
-                throw new AccountNotFoundException("Account does not exist");
-            }
 
-            logger.info("Successfully deleted Account");
-            AccountRepo.deleteById(accountId);
-        }
+    public void deleteAccount(Long accountId){
+Account account = AccountRepo.findById(accountId).get();
+        AccountRepo.delete(account);
+        logger.info("Account deleted successfully");
+    }
 
     }
 

@@ -10,7 +10,7 @@ import javax.persistence.Id;
 
 @Entity
 @Table
-public class Bill{
+public class Bill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,29 +45,20 @@ public class Bill{
     @Column(name = "upcoming_payment")
     private String upcoming_payment;
 
+    @ManyToOne
+    @JoinColumn(name = "account_id")
 
-    @Column (name = "account_id")
-    private Long account_id;
+    private Account account;
+
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
 
     @Column(name = "payment_amount")
     private Double payment_amount;
 
-    public Bill() {
-    }
-
-    public Bill(Long id, String status, String payee, String nickname, String creation_date, String payment_date, Long recurring_date, String upcoming_payment, Long account_id, Double payment_amount) {
-        this.id = id;
-        this.status = status;
-        this.payee = payee;
-        this.nickname = nickname;
-        this.creation_date = creation_date;
-        this.payment_date = payment_date;
-        this.recurring_date = recurring_date;
-        this.upcoming_payment = upcoming_payment;
-        this.account_id = account_id;
-        this.payment_amount = payment_amount;
-    }
 
     public Long getId() {
         return id;
@@ -133,12 +124,20 @@ public class Bill{
         this.upcoming_payment = upcoming_payment;
     }
 
-    public Long getAccount_id() {
-        return account_id;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setAccount_id(Long account_id) {
-        this.account_id = account_id;
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Double getPayment_amount() {
@@ -149,4 +148,5 @@ public class Bill{
         this.payment_amount = payment_amount;
     }
 }
+
 
