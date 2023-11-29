@@ -1,5 +1,6 @@
 package com.thecoalition.bankingApi.controller;
 
+import com.thecoalition.bankingApi.handler.exceptions.DepositNotFoundException;
 import com.thecoalition.bankingApi.model.Account;
 import com.thecoalition.bankingApi.model.Deposit;
 import com.thecoalition.bankingApi.response.DepositResponse;
@@ -22,14 +23,17 @@ public class DepositController {
     @Autowired
     private DepositResponse depositResponse;
 
+    @Autowired
+    public DepositController(DepositResponse depositResponse){this.depositResponse = depositResponse;}
+
     /**
      * gets all deposit for an account
-     * @param payeeId
+     * @param accountId
      * @return
      */
-    @RequestMapping(value = "/accounts/{accountId}/deposits", method = RequestMethod.GET)
-    public ResponseEntity<?> getAll(@PathVariable Long payeeId) {
-        return new ResponseEntity<>(depositResponse.getAllDeposit(payeeId), HttpStatus.OK);
+    @GetMapping("/accounts/{accountId}/deposits")
+    public ResponseEntity<?> getAll(@PathVariable Long accountId) {
+        return depositResponse.getAllDeposit(accountId);
     }
 
 
@@ -39,8 +43,8 @@ public class DepositController {
      * @return
      */
     @GetMapping("/deposits/{depositId}")
-    public ResponseEntity<?> getById(@PathVariable Long depositId) {
-        return new ResponseEntity<>(depositResponse.getDeposit(depositId), HttpStatus.OK);
+    public ResponseEntity<?> getById(@PathVariable Long depositId) throws DepositNotFoundException {
+        return depositResponse.getDeposit(depositId);
     }
 
     /**
@@ -49,9 +53,9 @@ public class DepositController {
      * @param deposit
      * @return
      */
-    @PostMapping(value = "/accounts/{accountId}/deposits")
+    @PostMapping("/accounts/{accountId}/deposits")
     public ResponseEntity<?> createDeposit(@PathVariable Long accountId, @RequestBody Deposit deposit) {
-        return new ResponseEntity<> (depositResponse.createDeposit(accountId, deposit), HttpStatus.CREATED);
+        return depositResponse.createDeposit(accountId, deposit);
 
     }
 
@@ -63,7 +67,7 @@ public class DepositController {
      */
     @PutMapping("/deposits/{depositId}")
     public ResponseEntity<?> updateDeposit(@PathVariable Long depositId, @RequestBody Deposit deposit){
-        return new ResponseEntity<> (depositResponse.editDeposit(depositId,deposit), HttpStatus.OK);
+        return depositResponse.editDeposit(depositId,deposit);
     }
 
 
@@ -72,8 +76,8 @@ public class DepositController {
      * @param depositId
      * @return
      */
-    @DeleteMapping(value = "/deposit/{depositId}")
-    public ResponseEntity<?> deleteDeposit(@PathVariable Long depositId) {
-        return new ResponseEntity<>(depositResponse.deleteDeposit(depositId), HttpStatus.NO_CONTENT);
+    @DeleteMapping("/deposits/{depositId}")
+    public ResponseEntity<?> deleteDeposit(@PathVariable Long depositId) throws DepositNotFoundException{
+        return depositResponse.deleteDeposit(depositId);
     }
 }
