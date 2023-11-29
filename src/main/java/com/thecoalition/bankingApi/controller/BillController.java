@@ -137,8 +137,8 @@ public class BillController {
      */
     @DeleteMapping(value = "/bills/{billId}")// delete a specific existing bill
     public ResponseEntity<?> removeBillById(@PathVariable Long billId){
-        billService.removeBill(billId);
-        return new ResponseEntity<>(billResponse.removeBillById(billId),HttpStatus.NO_CONTENT);
+
+        return billResponse.removeBillById(billId);
     }
 }
 

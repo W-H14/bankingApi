@@ -84,7 +84,7 @@ public class CustomerService {
 
             Customer editThisCustomer = findCustomerById.get();
             editThisCustomer.setFirstName(customer.getFirstName());
-            editThisCustomer.setLastName(customer.getFirstName());
+            editThisCustomer.setLastName(customer.getLastName());
             editThisCustomer.setAddresses(customer.getAddresses());
 
             customerRepository.save(editThisCustomer);
