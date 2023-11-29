@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
 
     @Autowired
-    private AccountRepository accountRepo;
+    private AccountRepository accountRepository;
 
     @Autowired
     private AccountService accountService;
@@ -80,4 +80,13 @@ public class AccountController {
         return accountResponse.updateAccount(updatedAccount, accountId);
     }
 
+    /**
+     * Get all accounts for a customer
+     * @param customerId
+     * @return
+     */
+   @GetMapping("/customers/{customerId}/accounts")
+    public ResponseEntity<?> getAllAccountsForCostumer(@PathVariable Long customerId){
+        return accountResponse.getAllAccountsForCostumer(customerId);
+    }
 }

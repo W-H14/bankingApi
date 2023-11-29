@@ -95,6 +95,14 @@ public class AccountResponse {
     }
 
 
+    public  ResponseEntity<?> getAllAccountsForCostumer(Long customer_id){
+        Body body = new Body();
+        body.setData(accountService.getAllAccountsForCostumer(customer_id));
+        body.setCode(HttpStatus.OK.value());
+        body.setMessage("Success");
+        return new ResponseEntity<>(body, HttpStatus.OK);
+    }
+
 
 
 
