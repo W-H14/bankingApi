@@ -11,10 +11,12 @@ import org.springframework.stereotype.Repository;
 
 
 import java.util.Optional;
+import java.util.Set;
+
 @Repository
 
 public interface WithdrawalRepository extends CrudRepository<Withdrawal, Long> {
 
-    @Query(value = "SELECT w.* FROM Withdraw\nal w WHERE w.payer_id = :accountId",nativeQuery = true)
-    Optional<Withdrawal> findByPayerId(@Param("accountId") Long accountId);
+    @Query(value = "SELECT w.* FROM Withdrawal w JOIN account a ON a.account_id WHERE a.account_id = ?1", nativeQuery = true)
+    Set<Withdrawal> findByPayerId( Long accountId);
 }
