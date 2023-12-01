@@ -85,14 +85,14 @@ public class BillController {
 
     }
 
-<<<<<<< HEAD
-=======
-    /**
-     * get bill by customer id
-     * @param customerId
-     * @return
-     */
->>>>>>> 9b4b07289967e6f5a34598e8f9d416c2a4ec991b
+//<<<<<<< HEAD
+//=======
+//    /**
+//     * get bill by customer id
+//     * @param customerId
+//     * @return
+//     */
+//>>>>>>> 9b4b07289967e6f5a34598e8f9d416c2a4ec991b
     @GetMapping(value = "/customers/{customerId}/bills")// get bill by id
     public ResponseEntity<?> getBillByCustomerId(@PathVariable Long customerId){
         return new ResponseEntity<>(billResponse.getBillByCustomerId(customerId),HttpStatus.OK);

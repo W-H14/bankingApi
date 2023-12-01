@@ -30,8 +30,6 @@ public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    @Autowired
-    private TransactionService transactionService;
 
     private final Logger logger = LoggerFactory.getLogger(TransactionService.class);
 
@@ -74,6 +72,7 @@ public class TransactionService {
       return existingbalnce;
     }
 
+
     @Transactional
     public void p2p(Long payer_Id, Long payee_Id, double amount) {
         try {
@@ -87,8 +86,8 @@ public class TransactionService {
             Transaction payee = receiver.get();
             payee.setBalance(payee.getBalance() + amount);
 
-            transactionService.updateBalance(payer_Id,payer);
-            transactionService.updateBalance(payee_Id,payee);
+          updateBalance(payer_Id,payer);
+            updateBalance(payee_Id,payee);
         } catch (Exception e) {
             logger.error("Error performing transfer: Error with transaction", e);
             throw new ResourceNotFoundException("Error creating transfer");
