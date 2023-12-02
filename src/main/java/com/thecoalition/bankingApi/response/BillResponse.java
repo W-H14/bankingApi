@@ -2,7 +2,6 @@ package com.thecoalition.bankingApi.response;
 
 import com.thecoalition.bankingApi.dto.Body;
 import com.thecoalition.bankingApi.model.Bill;
-import com.thecoalition.bankingApi.model.Customer;
 import com.thecoalition.bankingApi.service.BillService;
 import com.thecoalition.bankingApi.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +25,7 @@ public class  BillResponse {
         Body body = new Body();
         body.setData(accountId);
         body.setCode(HttpStatus.OK.value());
+        body.setMessage("Bills found for account: " + accountId);
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
     public ResponseEntity<?> getBillById(Long billId){
@@ -41,12 +41,13 @@ public class  BillResponse {
         customerService.getCustomerById(customerId);
 
         Body body = new Body();
-        body.setData(customerId);
+        body.setData(billService.getBillById(customerId));
         body.setCode(HttpStatus.OK.value());
+        body.setMessage("Bills retrieved");
         return new ResponseEntity<>(body,HttpStatus.OK);
     }
 
-    public ResponseEntity<?> createBill(Long bilId, Bill bill ) {
+    public ResponseEntity<?> createBill(Bill bill ) {
         billService.createBill(bill);
 
         Body body = new Body();
@@ -70,7 +71,7 @@ public class  BillResponse {
         billService.getBillById(customerId);
 
         Body body = new Body();
-        body.setData(customerId);
+        body.setData(billService.getBillById(customerId));
         body.setCode(HttpStatus.ACCEPTED.value());
         body.setMessage("Bills Found");
 

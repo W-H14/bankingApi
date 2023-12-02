@@ -112,13 +112,12 @@ public class BillController {
     /**
      * creates a bill
      * @param bill
-     * @param billId
      * @return
      */
     @PostMapping(value = "/accounts/{accountId}/bills")// create a bill
-    public ResponseEntity<?> createBill(@RequestBody Bill bill, @PathVariable Long billId){
+    public ResponseEntity<?> createBill(@RequestBody Bill bill){
         bill = billService.createBill(bill);
-        return new ResponseEntity<>(billResponse.createBill(billId,bill),HttpStatus.CREATED);
+        return new ResponseEntity<>(billResponse.createBill(bill),HttpStatus.CREATED);
     }
 
     /**
