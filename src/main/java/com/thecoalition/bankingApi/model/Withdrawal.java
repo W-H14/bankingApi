@@ -1,15 +1,40 @@
 package com.thecoalition.bankingApi.model;
 
-public class Withdrawal {
-private Long id;
-private String type;
-private String transaction_date;
-private String status;
-private Long payer_id;
-private String medium;
-private Double amount;
-private String description;
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
+@Entity
+public class Withdrawal {
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotEmpty
+    @Column(name = "withdrawalId")
+    private Long id;
+    @Column(name = "withdrawalType")
+    @NotEmpty
+    private String type;
+    @Column(name = "transactionDate")
+    @NotEmpty
+    private String transaction_date;
+    @Column(name = "status")
+    @NotEmpty
+    private String status;
+    @Column(name = "payerId")
+    @NotEmpty
+    private Long payer_id;
+    @Column(name = "medium")
+    @NotEmpty
+    private String medium;
+    @Column(name = "amount")
+    @NotEmpty
+    private Double amount;
+    @Column(name = "description")
+    @NotEmpty
+    private String description;
     public Long getId() {
         return id;
     }
@@ -72,6 +97,14 @@ private String description;
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public Withdrawal(Long id, String type, String transaction_date, String status, Long payer_id, String medium, Double amount, String description) {

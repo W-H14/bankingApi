@@ -11,11 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+@RestController
 public class AccountController {
 
     @Autowired
-    private AccountRepository accountRepo;
+    private AccountRepository accountRepository;
 
     @Autowired
     private AccountService accountService;
@@ -33,12 +33,11 @@ public class AccountController {
      * @param account
      * @return
      */
-    @PostMapping(value = "/costumers/{costumerId}/accounts")
+    @PostMapping(value = "/customers/{costumerId}/accounts")
     public ResponseEntity<?> createAccount(@PathVariable Long costumerId, @RequestBody Account account) {
        return new ResponseEntity<> (accountResponse.createAccount(costumerId, account), HttpStatus.CREATED);
 
     }
-
 
     /**
      * Delete an account
@@ -47,9 +46,8 @@ public class AccountController {
      */
     @DeleteMapping(value = "/accounts/{accountId}")
     public ResponseEntity<?> deleteAccount(@PathVariable Long accountId){
-         return new ResponseEntity<> (accountResponse.deleteAccount(accountId), HttpStatus.NO_CONTENT);
+         return accountResponse.deleteAccount(accountId);
     }
-
 
     /**
      * Get all accounts
@@ -68,9 +66,8 @@ public class AccountController {
      */
     @GetMapping("/accounts/{accountId}")
     public ResponseEntity<?> getAccountById(@PathVariable Long accountId){
-      return new ResponseEntity<>(accountResponse.getAccountById(accountId),HttpStatus.OK) ;
+      return accountResponse.getAccountById(accountId)   ;
     }
-
 
     /**
      * Update an account
@@ -80,9 +77,16 @@ public class AccountController {
      */
     @PutMapping("/accounts/{accountId}")
     public ResponseEntity<?> updateAccount(@PathVariable Long accountId, @RequestBody Account updatedAccount){
-        return new ResponseEntity<> (accountResponse.updateAccount(updatedAccount, accountId), HttpStatus.OK);
+        return accountResponse.updateAccount(updatedAccount, accountId);
     }
 
-
-
+    /**
+     * Get all accounts for a customer
+     * @param customerId
+     * @return
+     */
+   @GetMapping("/customers/{customerId}/accounts")
+    public ResponseEntity<?> getAllAccountsForCostumer(@PathVariable Long customerId){
+        return accountResponse.getAllAccountsForCostumer(customerId);
+    }
 }

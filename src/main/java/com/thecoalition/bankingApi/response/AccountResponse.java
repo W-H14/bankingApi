@@ -1,9 +1,10 @@
 package com.thecoalition.bankingApi.response;
 
+import com.thecoalition.bankingApi.handler.exceptions.ResourceNotFoundException;
 import com.thecoalition.bankingApi.model.Account;
 import com.thecoalition.bankingApi.service.AccountService;
 import com.thecoalition.bankingApi.service.CustomerService;
-import org.apache.velocity.exception.ResourceNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,6 @@ public class AccountResponse {
 
 
     public ResponseEntity<?> createAccount(Long costumerId, Account account) {
-        accountService.verifyCostumer(costumerId);
         accountService.createAccount(costumerId, account);
         Body body = new Body();
         body.setData(account);
@@ -57,20 +57,15 @@ public class AccountResponse {
 
 
     public ResponseEntity<?> getAccountById(Long accountId) throws ResourceNotFoundException {
-
         Optional<Account> account = accountService.getAccountById(accountId);
-        if (!account.isPresent()) {
+
             Body body = new Body();
-            body.setCode(HttpStatus.NOT_FOUND.value());
-            body.setMessage("error fetching account");
-            return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
-        }else {
-            Body body = new Body();
+            body.setData(account);
             body.setCode(HttpStatus.OK.value());
             body.setMessage("Account retrieval Success");
             return new ResponseEntity<>(body, HttpStatus.OK);
         }
-    }
+
 
 
 
@@ -78,6 +73,7 @@ public class AccountResponse {
 
         accountService.deleteAccount(accountId);
         Body body = new Body();
+
         body.setCode(HttpStatus.NO_CONTENT.value());
         body.setMessage("Account successfully deleted");
         return new ResponseEntity<>(body, HttpStatus.NO_CONTENT);
@@ -89,14 +85,23 @@ public class AccountResponse {
 
 
     public ResponseEntity<?> updateAccount(Account updatedAccount, Long accountId) {
-        accountService.updateAccount(updatedAccount, accountId);
+        Account account =accountService.updateAccount(updatedAccount, accountId);
+
         Body body = new Body();
-        body.setData(updatedAccount);
+        body.setData(account);
         body.setCode(HttpStatus.OK.value());
         body.setMessage("Customer Account Updated");
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
 
+
+    public  ResponseEntity<?> getAllAccountsForCostumer(Long customer_id){
+        Body body = new Body();
+        body.setData(accountService.getAllAccountsForCostumer(customer_id));
+        body.setCode(HttpStatus.OK.value());
+        body.setMessage("Success");
+        return new ResponseEntity<>(body, HttpStatus.OK);
+    }
 
 
 

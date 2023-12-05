@@ -5,45 +5,46 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @Entity
-public class Deposit implements Serializable {
+@Table(name = "Deposit")
+public class Deposit  {
+
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotEmpty
-    @Column(name = "DEPOSIT_ID")
-    private Long depositID;
+    @Column(name = "deposit_id")
+    private Long id;
 
-    @Column(name = "DEPOSIT_TYPE")
+    @Column(name = "deposit_type")
     @NotEmpty
     private String type;
-    @Column(name = "TRANSACTION_DATE")
+    @Column(name = "transaction_date")
     @NotEmpty
     private String transaction_date;
 
-    @Column(name = "STATUS")
+    @Column(name = "status")
     @NotEmpty
     private String status;
 
 
-    @JoinColumn(name = "PAYEE_ID")
-    @NotEmpty
-    private Long payee_id;
-    @Column(name = "MEDIUM")
+//    @Column(name = "payee_id")
+//    @NotEmpty
+//    private Long payee_id;
+    @Column(name = "medium")
     @NotEmpty
     private String medium;
-    @Column(name = "AMOUNT")
+    @Column(name = "amount")
     @NotEmpty
     private Double amount;
-    @Column(name = "DESCRIPTION")
+    @Column(name = "description")
     @NotEmpty
     private String description;
 
-    public Long getDepositID() {
-        return depositID;
-    }
 
-    public void setDepositID(Long depositID) {
-        this.depositID = depositID;
-    }
+
+
 
     public String getType() {
         return type;
@@ -69,13 +70,13 @@ public class Deposit implements Serializable {
         this.status = status;
     }
 
-    public Long getPayee_id() {
-        return payee_id;
-    }
-
-    public void setPayee_id(Long payee_id) {
-        this.payee_id = payee_id;
-    }
+//    public Long getPayee_id() {
+//        return payee_id;
+//    }
+//
+//    public void setPayee_id(Long payee_id) {
+//        this.payee_id = payee_id;
+//    }
 
     public String getMedium() {
         return medium;
@@ -101,18 +102,27 @@ public class Deposit implements Serializable {
         this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "Deposit{" +
-                "depositID=" + depositID +
-                ", type='" + type + '\'' +
-                ", transaction_date='" + transaction_date + '\'' +
-                ", status='" + status + '\'' +
-                ", payee_id=" + payee_id +
-                ", medium='" + medium + '\'' +
-                ", amount=" + amount +
-                ", description='" + description + '\'' +
-                '}';
+    public Account getAccount() {
+        return account;
     }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+
+    public Deposit() {
+    }
+
+
 }
 

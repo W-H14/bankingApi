@@ -21,10 +21,10 @@ public class  BillResponse {
     CustomerService customerService;
 
     public ResponseEntity<?> getBillByAccount(Long accountId){
-        billService.getBillByAccount(accountId);
+        Optional<Bill> bill1 = billService.getBillByAccount(accountId);
 
         Body body = new Body();
-        body.setData(accountId);
+        body.setData(bill1);
         body.setCode(HttpStatus.OK.value());
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
@@ -38,39 +38,41 @@ public class  BillResponse {
 
     }
     public ResponseEntity<?> getBillByCustomerId(Long customerId){
-        customerService.getCustomerById(customerId);
+        Optional<Bill> customer = billService.getAllCustomerBills(customerId);
 
         Body body = new Body();
-        body.setData(customerId);
+        body.setData(customer);
         body.setCode(HttpStatus.OK.value());
         return new ResponseEntity<>(body,HttpStatus.OK);
     }
 
-    public ResponseEntity<?> createBill(Long bilId, Bill bill ) {
-        billService.createBill(bill);
+    public ResponseEntity<?> createBill(Long accountId, Bill bill ) {
+
+
+        Bill bill1 = billService.createBill(bill, accountId);
 
         Body body = new Body();
-        body.setData(bill);
+        body.setData(bill1);
         body.setCode(HttpStatus.CREATED.value());
         body.setMessage("Created bill and added it to the account");
         return new ResponseEntity<>(body, HttpStatus.CREATED);
     }
 
     public ResponseEntity<?> updateBill(Bill bill, Long billId) {
-        billService.editBill(billId, bill);
+        Bill bill1 = billService.editBill(billId, bill);
 
         Body body = new Body();
-        body.setData(bill);
+        body.setData(bill1);
         body.setCode(HttpStatus.ACCEPTED.value());
         body.setMessage("Accepted bill modification");
         return new ResponseEntity<>(body, HttpStatus.ACCEPTED);
     }
 
-    public ResponseEntity<?> getAllBills( Long customerId){
-        billService.getBillById(customerId);
+    public ResponseEntity<?> getAllBills( Long billId){
+       Optional<Bill> bills = billService.getBillById(billId);
 
         Body body = new Body();
-        body.setData(customerId);
+        body.setData(bills);
         body.setCode(HttpStatus.ACCEPTED.value());
         body.setMessage("Bills Found");
 

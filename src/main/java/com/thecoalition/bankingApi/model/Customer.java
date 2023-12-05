@@ -10,7 +10,7 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "customer_Id")
+    @Column(name = "customer_id")
     @OrderBy
    private Long id;
 
@@ -23,8 +23,8 @@ public class Customer {
    private String lastName;
 
     @NotBlank
-   @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-   @JoinColumn(name = "customer_Id")
+   @OneToMany(cascade = CascadeType.ALL)
+    @OrderBy
    private Set<Address> addresses;
 
 

@@ -6,6 +6,7 @@ import com.thecoalition.bankingApi.model.Account;
 import com.thecoalition.bankingApi.model.Customer;
 import com.thecoalition.bankingApi.repository.AccountRepository;
 import com.thecoalition.bankingApi.handler.exceptions.ResourceNotFoundException;
+import com.thecoalition.bankingApi.repository.CustomerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +19,17 @@ import java.util.Optional;
 public class AccountService {
 
     @Autowired
-    private AccountRepository AccountRepo;
+    private AccountRepository accountRepository;
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
 
     private final org.slf4j.Logger logger = LoggerFactory.getLogger(AccountService.class);
 
-    public void verifyCostumer(Long CostumerId) throws ResourceNotFoundException {
+    public void verifyCostumer(Long CostumerId)  {
         Optional<Customer> costumer = customerService.getCustomerById(CostumerId);
         if (costumer.isEmpty()) {
             logger.error("Customer Not Verified");
@@ -36,67 +40,79 @@ public class AccountService {
     public Optional<Account> getAccountById(Long accountId) {
         logger.info("Retrieved account by Id successfully ");
 
-        return AccountRepo.findById(accountId);
+        return accountRepository.findById(accountId);
 
     }
 
 
 
     public Iterable<Account> getAllAccounts() throws AccountNotFoundException{
-        Iterable<Account> allAccounts = AccountRepo.findAll();
+        Iterable<Account> allAccounts = accountRepository.findAll();
         if (!allAccounts.iterator().hasNext()) {
             logger.error("Account Not Found");
             throw new AccountNotFoundException("Error fetching account");
 
         }
         logger.info("All Accounts retrieved");
-        return AccountRepo.findAll();
+        return accountRepository.findAll();
     }
+
+
+
+
 
     public Account createAccount(Long customerId, Account account) {
         verifyCostumer(customerId);
 
         try {
             logger.info("Successfully created Account");
-            return AccountRepo.save(account);
+            Customer getCustomer = customerRepository.findById(customerId).get();
+            account.setCustomer(getCustomer);
+            return accountRepository.save(account);
+
         } catch (Exception e) {
             logger.error("Error fetching creating customers account", e);
             throw new RuntimeException("Error fetching creating customers account");
         }
     }
 
+
+
     public Account updateAccount(Account updatedAccount, Long accountId) throws AccountNotFoundException{
         // Save the entity
-        Optional<Account> accountOptional = AccountRepo.findById(accountId);
+        Optional<Account> accountOptional = accountRepository.findById(accountId);
+if (accountOptional.isPresent()) {
+    Account editThisAccount = accountOptional.get();
+    editThisAccount.setBalance(updatedAccount.getBalance());
+    editThisAccount.setType(updatedAccount.getType());
+    editThisAccount.setNickname(updatedAccount.getNickname());
+    editThisAccount.setRewardPoints(updatedAccount.getRewardPoints());
 
-        if (accountOptional.isEmpty()) {
-            logger.error("Couldn't update Account");
-            throw new AccountNotFoundException("Error");
-        }
 
-        Account existingAccount = accountOptional.get();
 
-        existingAccount.setBalance(updatedAccount.getBalance());
-        existingAccount.setNickname(updatedAccount.getNickname());
-        existingAccount.setType(updatedAccount.getType());
-        existingAccount.setRewardPoints(updatedAccount.getRewardPoints());
-
-        logger.info("Successfully Updated Account");
-        return existingAccount;
+    logger.info("Account was Successfully Updated");
+    return accountRepository.save(editThisAccount);
+}else {
+        logger.error("Unsuccessful Attempt to edit. Account not found");
+        throw new AccountNotFoundException("Error updating Account with id " + accountId );
     }
+}
+public Iterable<Account> getAllAccountsForCostumer(Long customer_id){
+       logger.info("Retrieved all accounts for customer successfully");
+        verifyCostumer(customer_id);
+    return accountRepository.findByCustomer_Id(customer_id);
+
+
+}
 
 
 
 
-        public void deleteAccount (Long accountId) throws AccountNotFoundException{
-            if (!AccountRepo.existsById(accountId)) {
-                logger.error("Account does not exist");
-                throw new AccountNotFoundException("Account does not exist");
-            }
-
-            logger.info("Successfully deleted Account");
-            AccountRepo.deleteById(accountId);
-        }
+    public void deleteAccount(Long accountId){
+Account account = accountRepository.findById(accountId).get();
+        accountRepository.delete(account);
+        logger.info("Account deleted successfully");
+    }
 
     }
 

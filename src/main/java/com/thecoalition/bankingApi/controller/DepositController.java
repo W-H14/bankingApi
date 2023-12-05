@@ -1,6 +1,9 @@
 package com.thecoalition.bankingApi.controller;
 
+import com.thecoalition.bankingApi.handler.exceptions.DepositNotFoundException;
+import com.thecoalition.bankingApi.model.Account;
 import com.thecoalition.bankingApi.model.Deposit;
+import com.thecoalition.bankingApi.response.DepositResponse;
 import com.thecoalition.bankingApi.service.AccountService;
 import com.thecoalition.bankingApi.service.DepositService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,34 +20,64 @@ public class DepositController {
     @Autowired
     private DepositService depositService;
 
+    @Autowired
+    private DepositResponse depositResponse;
 
-    @RequestMapping(value="/accounts/{accountId}/deposits", method= RequestMethod.GET)
-    public ResponseEntity<Optional<Deposit>> getAll(@PathVariable Long accountId){
-//        Optional<Deposit> deposit = depositService.getAllDeposits(accountId); // Modify this based on your requirements
-//        return ResponseEntity.of(deposit)
-        return new ResponseEntity<>(depositService.getAllDeposits(accountId), HttpStatus.OK);
+    @Autowired
+    public DepositController(DepositResponse depositResponse){this.depositResponse = depositResponse;}
+
+    /**
+     * gets all deposit for an account
+     * @param accountId
+     * @return
+     */
+    @GetMapping("/accounts/{accountId}/deposits")
+    public ResponseEntity<?> getAll(@PathVariable Long accountId) {
+        return depositResponse.getAllDeposit(accountId);
     }
 
+
+    /**
+     * gets deposit by id
+     * @param depositId
+     * @return
+     */
     @GetMapping("/deposits/{depositId}")
-    @ResponseStatus(HttpStatus.OK)
-    public Optional<Deposit> getById(@PathVariable Long depositId){
-        return depositService.getDeposit(depositId);
+    public ResponseEntity<?> getById(@PathVariable Long depositId) throws DepositNotFoundException {
+        return depositResponse.getDeposit(depositId);
     }
 
-
+    /**
+     * creates deposit
+     * @param accountId
+     * @param deposit
+     * @return
+     */
     @PostMapping("/accounts/{accountId}/deposits")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createDeposit(@PathVariable Long accountId, @RequestBody Deposit deposit){
-       depositService.createDeposit(accountId, deposit);
-    }
-    @PutMapping("/deposits/{depositId}")
+    public ResponseEntity<?> createDeposit(@PathVariable Long accountId, @RequestBody Deposit deposit) {
+        return depositResponse.createDeposit(accountId, deposit);
 
-    public Deposit editDeposit(@PathVariable Long depositId, @RequestBody Deposit deposit){
-        return depositService.editDeposit(depositId, deposit);
     }
-    @DeleteMapping("/deposit/{depositId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT) // Use HttpStatus.CREATED for 201 status
-    public void deleteDeposit(@Valid @PathVariable Long depositId) {
-        depositService.deleteDeposit(depositId);
+
+    /**
+     * updates deposit
+     * @param depositId
+     * @param deposit
+     * @return
+     */
+    @PutMapping("/deposits/{depositId}")
+    public ResponseEntity<?> updateDeposit(@PathVariable Long depositId, @RequestBody Deposit deposit){
+        return depositResponse.editDeposit(depositId,deposit);
+    }
+
+
+    /**
+     * deletes deposit
+     * @param depositId
+     * @return
+     */
+    @DeleteMapping("/deposits/{depositId}")
+    public ResponseEntity<?> deleteDeposit(@PathVariable Long depositId) throws DepositNotFoundException{
+        return depositResponse.deleteDeposit(depositId);
     }
 }

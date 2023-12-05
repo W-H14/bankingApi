@@ -51,8 +51,8 @@ package com.thecoalition.bankingApi.service;
 import com.thecoalition.bankingApi.handler.exceptions.BillNotFoundException;
 import com.thecoalition.bankingApi.handler.exceptions.ResourceNotFoundException;
 import com.thecoalition.bankingApi.model.Bill;
+import com.thecoalition.bankingApi.repository.AccountRepository;
 import com.thecoalition.bankingApi.repository.BillRepository;
-import com.thecoalition.bankingApi.utility.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,15 +64,47 @@ import java.util.Optional;
 public class BillService {
     @Autowired
     private BillRepository billRepository;
+    @Autowired
+    private AccountService accountService;
+@Autowired
+    private AccountRepository accountRepository;
+
+
     private final Logger logger = LoggerFactory.getLogger(BillService.class);
-    public Bill createBill(Bill bill){
+
+
+
+    public void verifyAccount(Long accountId) throws ResourceNotFoundException {
+        Optional<Bill> bill = billRepository.findById(accountId);
+        if (bill.isEmpty()) {
+            logger.error("Account Not Verified");
+            throw new ResourceNotFoundException("Account with id " + accountId + " not found");
+        }
+    }
+    public Bill createBill(Bill bill, Long accountId){
+        try {
+            var account = accountRepository.findById(accountId);
+          if (account.isEmpty()){
+              throw new ResourceNotFoundException("Account not found");
+          }bill.setAccount(account.get());
+            return billRepository.save(bill);
+        } catch (Exception e) {
+            logger.error("Error creating bill: Account not found", e);
+            throw new ResourceNotFoundException("Error creating bill: Account not found");
+
+        }
+   /*     verifyAccount(accountId);
+        logger.info("Account verified");
         try {
             logger.info("Bill created");
+            bill.setAccount(accountRepository.findById(accountId).get());
             return billRepository.save(bill);
         } catch (Exception e) {
             logger.error("Error creating bill: Account not found", e);
             throw new ResourceNotFoundException("Error creating bill: Account not found");
         }
+
+    */
     }
 
     public Iterable<Bill> getBills(){
@@ -94,13 +126,14 @@ public class BillService {
     }
 
 
-    public void getAllCustomerBills()throws ResourceNotFoundException{
+    public Optional<Bill> getAllCustomerBills(Long customer_Id )throws ResourceNotFoundException{
         try {
-            billRepository.findAll();
+            billRepository.findById(customer_Id);
         } catch (Exception e) {
             logger.error("Error fetching bills", e);
             throw new BillNotFoundException("Error fetching bills");
         }
+        return billRepository.findById(customer_Id);
     }
 
     public Optional<Bill> getBillByAccount(Long account_id) {
@@ -117,6 +150,7 @@ public class BillService {
         logger.info("Trying to retrieve bill by Bill ID");
 
         Optional<Bill> optionalBill = billRepository.findById(billId);
+
         if (optionalBill.isEmpty()) {
             logger.error("Error fetching bill with id: " + billId);
             throw new BillNotFoundException("Error fetching bill with id: " + billId);
@@ -125,7 +159,7 @@ public class BillService {
         return optionalBill;
     }
 
-    public void editBill(Long billId, Bill bill){
+    public Bill editBill(Long billId, Bill bill){
         Optional<Bill> existingBillOptional = billRepository.findById(billId);
         if (existingBillOptional.isEmpty()) {
             logger.error("Bill ID does not exist");
@@ -140,11 +174,12 @@ public class BillService {
         existingBill.setPayment_date(bill.getPayment_date());
         existingBill.setRecurring_date(bill.getRecurring_date());
         existingBill.setUpcoming_payment(bill.getUpcoming_payment());
-        existingBill.setAccount_id(bill.getAccount_id());
+        existingBill.setAccount(bill.getAccount());
         existingBill.setPayment_amount(bill.getPayment_amount());
 
         logger.info("Successfully updated Bill");
         billRepository.save(existingBill);
+        return existingBill;
     }
 
     public void removeBill(Long id){
@@ -154,12 +189,12 @@ public class BillService {
         }
         logger.info("Bill was Successfully deleted");
         billRepository.deleteById(id);
-    }
 
     }
 
+    }
 
-}
+
 
 
 
