@@ -15,7 +15,7 @@ public class AccountActivityService {
         this.accountActivityRepository = accountActivityRepository;
     }
 
-    public Iterable<AccountActivity> getAllAccountActivities(Long accountId) {
-        return accountActivityRepository.findAllByAccountId(accountId);
+    public Iterable<AccountActivity> getAllActivities() {
+        return accountActivityRepository.findAll();
     }
 }

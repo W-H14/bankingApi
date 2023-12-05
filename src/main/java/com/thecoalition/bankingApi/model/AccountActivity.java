@@ -1,22 +1,28 @@
 package com.thecoalition.bankingApi.model;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 public class AccountActivity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "activity_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "account_id", nullable = false)
-    private Account account;
+    @Column(name = "activity_date")
+    private Date activityDate;
 
+    @Column(name = "amount")
     private Double amount;
+    @ManyToOne
+    @JoinColumn(name = "withdrawal_id")
+    private Withdrawal withdrawal;
 
-    private LocalDateTime timestamp;
+    @ManyToOne
+    @JoinColumn(name = "deposit_id")
+    private Deposit deposit;
 
     public Long getId() {
         return id;
@@ -26,12 +32,12 @@ public class AccountActivity {
         this.id = id;
     }
 
-    public Account getAccount() {
-        return account;
+    public Date getActivityDate() {
+        return activityDate;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setActivityDate(Date activityDate) {
+        this.activityDate = activityDate;
     }
 
     public Double getAmount() {
@@ -42,31 +48,33 @@ public class AccountActivity {
         this.amount = amount;
     }
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
+    public Withdrawal getWithdrawal() {
+        return withdrawal;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
+    public void setWithdrawal(Withdrawal withdrawal) {
+        this.withdrawal = withdrawal;
+    }
+
+    public Deposit getDeposit() {
+        return deposit;
+    }
+
+    public void setDeposit(Deposit deposit) {
+        this.deposit = deposit;
     }
 
     public AccountActivity() {
     }
 
-    public AccountActivity(Long id, Account account, Double amount, LocalDateTime timestamp) {
-        this.id = id;
-        this.account = account;
-        this.amount = amount;
-        this.timestamp = timestamp;
-    }
 
     @Override
     public String toString() {
         return "AccountActivity{" +
                 "id=" + id +
-                ", account=" + account +
+                ", activityDate=" + activityDate +
                 ", amount=" + amount +
-                ", timestamp=" + timestamp +
                 '}';
     }
 }
+
