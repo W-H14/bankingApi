@@ -11,16 +11,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class AccountActivityResponse {
 
+    @Autowired
     private final AccountActivityService accountActivityService;
 
-    @Autowired
+
     public AccountActivityResponse(AccountActivityService accountActivityService) {
         this.accountActivityService = accountActivityService;
     }
 
     public ResponseEntity<?> getAllActivities() {
         Body body = new Body();
-        body.setData(accountActivityService.getAllActivities());
+        //body.setData(accountActivityService.getAllActivities());
         body.setCode(HttpStatus.OK.value());
         body.setMessage("Success");
         return new ResponseEntity<>(body, HttpStatus.OK);

@@ -74,6 +74,8 @@ public class AccountActivity {
                 "id=" + id +
                 ", activityDate=" + activityDate +
                 ", amount=" + amount +
+                ", withdrawal=" + withdrawal +
+                ", deposit=" + deposit +
                 '}';
     }
 }
