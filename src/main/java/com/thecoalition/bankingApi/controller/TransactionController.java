@@ -12,7 +12,7 @@ public class TransactionController {
     @Autowired
     private TransactionService transactionService;
 
-    @PostMapping("/transfer/{accountId}")
+     @PostMapping("/transfer/{accountId}")
     @ResponseStatus(HttpStatus.CREATED)
     public void transferFunds(@RequestParam Long payerId, @RequestParam Long payeeId, @RequestBody Transaction transaction){
         transactionService.p2p(payerId, payeeId, transaction.getBalance());

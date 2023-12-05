@@ -23,7 +23,7 @@ public class  BillResponse {
         billService.getBillByAccount(accountId);
 
         Body body = new Body();
-        body.setData(accountId);
+        body.setData(billService.getBills());
         body.setCode(HttpStatus.OK.value());
         body.setMessage("Bills found for account: " + accountId);
         return new ResponseEntity<>(body, HttpStatus.OK);
@@ -32,7 +32,7 @@ public class  BillResponse {
         Optional<Bill> bill = billService.getBillById(billId);
 
         Body body = new Body();
-        body.setData(billId);
+        body.setData(billService.getBillById(billId));
         body.setCode(HttpStatus.OK.value());
         return new ResponseEntity<>(body,HttpStatus.OK);
 
@@ -53,7 +53,7 @@ public class  BillResponse {
         Body body = new Body();
         body.setData(bill);
         body.setCode(HttpStatus.CREATED.value());
-        body.setMessage("Created bill and added it to the account");
+        body.setMessage("Created bill posted to account");
         return new ResponseEntity<>(body, HttpStatus.CREATED);
     }
 

@@ -79,7 +79,7 @@ public class BillController {
      * @param billId
      * @return
      */
-    @GetMapping(value = "/bills/{billId}")//get bill by id
+    @GetMapping(value = "/accounts/{accountId}/bills/{billId}")//get bill by id
     public ResponseEntity<?> getBillById(@PathVariable Long billId){
         return new ResponseEntity<>(billResponse.getBillById(billId),HttpStatus.OK);
 
