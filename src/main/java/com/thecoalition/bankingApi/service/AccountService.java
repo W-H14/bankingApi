@@ -3,7 +3,9 @@ package com.thecoalition.bankingApi.service;
 import ch.qos.logback.classic.joran.action.LoggerAction;
 import com.thecoalition.bankingApi.handler.exceptions.AccountNotFoundException;
 import com.thecoalition.bankingApi.model.Account;
+import com.thecoalition.bankingApi.model.AccountActivity;
 import com.thecoalition.bankingApi.model.Customer;
+import com.thecoalition.bankingApi.repository.AccountActivityRepository;
 import com.thecoalition.bankingApi.repository.AccountRepository;
 import com.thecoalition.bankingApi.handler.exceptions.ResourceNotFoundException;
 import com.thecoalition.bankingApi.repository.CustomerRepository;
@@ -26,6 +28,10 @@ public class AccountService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private AccountActivityService accountActivityService;
+    @Autowired
+    private AccountActivityRepository  accountActivityRepository;
 
     private final org.slf4j.Logger logger = LoggerFactory.getLogger(AccountService.class);
 
@@ -68,7 +74,16 @@ public class AccountService {
             logger.info("Successfully created Account");
             Customer getCustomer = customerRepository.findById(customerId).get();
             account.setCustomer(getCustomer);
-            return accountRepository.save(account);
+
+            //saving account
+            Account savedAccount = accountRepository.save(account);
+
+            //creating and saving an activity for the account creation
+            AccountActivity createActivity = accountActivityService.createAccountActivity(savedAccount.getAccountId(), savedAccount.getBalance(),true);
+            accountActivityRepository.save(createActivity);
+
+            logger.info("account and activity were successfully Created");
+            return savedAccount;
 
         } catch (Exception e) {
             logger.error("Error fetching creating customers account", e);
