@@ -11,7 +11,7 @@ public class Withdrawal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotEmpty
-    @Column(name = "withdrawalId")
+    @Column(name = "withdrawal_id")
     private Long id;
     @Column(name = "withdrawalType")
     @NotEmpty
