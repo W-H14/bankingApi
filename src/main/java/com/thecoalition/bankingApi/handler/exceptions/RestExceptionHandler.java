@@ -51,6 +51,13 @@ public class RestExceptionHandler {
     @ExceptionHandler(WithdrawalNotFoundException.class)
     public ResponseEntity<ErrorDetail> handleWithdrawalNotFoundException(WithdrawalNotFoundException e) {
         return new ResponseEntity<>(new ErrorDetail(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+
+
+    }
+
+    @ExceptionHandler(LoanNotValidException.class)
+    public ResponseEntity<ErrorDetail> handleLoanNotValidException(LoanNotValidException e) {
+        return new ResponseEntity<>(new ErrorDetail(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
 

@@ -1,6 +1,7 @@
 
         package com.thecoalition.bankingApi.service;
 
+        import com.thecoalition.bankingApi.handler.exceptions.LoanNotValidException;
         import com.thecoalition.bankingApi.model.Account;
         import com.thecoalition.bankingApi.model.Customer;
         import com.thecoalition.bankingApi.model.Loan;
@@ -92,7 +93,8 @@ public class LoanService {
             return "The customer with the ID " + customerId + " and name " + name + ", and with the " + accountType.toLowerCase() +
                     " Account ID " + accountId + " is getting a loan of " + loanAmount + " in 10 seconds";
         } else if (loanAmount > maxLoanAmount) {
-            return "The requested loan amount is too high. The maximum loan amount for this customer is " + maxLoanAmount;
+           throw new LoanNotValidException("The requested loan amount is too high. The maximum loan amount for this customer is " +
+                                    + maxLoanAmount);
         } else {
             return "Customer does not qualify for a loan";
         }
