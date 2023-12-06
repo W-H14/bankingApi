@@ -80,11 +80,6 @@ public class AccountService {
             //saving account
             Account savedAccount = accountRepository.save(account);
 
-
-            //creating and saving an activity for the account creation
-//            AccountActivity createActivity = accountActivityService.createAccountActivity(savedAccount.getAccountId(), savedAccount.getBalance(),true);
-//            accountActivityRepository.save(createActivity);
-
             logger.info("account and activity were successfully Created");
             return savedAccount;
 
