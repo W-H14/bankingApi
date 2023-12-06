@@ -10,13 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class WithdrawalController {
-// needs autowired
-    private final WithdrawalResponse withdrawalResponse;
 
     @Autowired
-    public WithdrawalController(WithdrawalResponse withdrawalResponse) {
-        this.withdrawalResponse = withdrawalResponse;
-    }
+    private WithdrawalResponse withdrawalResponse;
+
 
     /**
      * gets all withdrawls in an account
