@@ -1,15 +1,11 @@
 package com.thecoalition.bankingApi.service;
 
-import ch.qos.logback.classic.joran.action.LoggerAction;
 import com.thecoalition.bankingApi.handler.exceptions.AccountNotFoundException;
-import com.thecoalition.bankingApi.model.Account;
-import com.thecoalition.bankingApi.model.AccountActivity;
-import com.thecoalition.bankingApi.model.Customer;
-import com.thecoalition.bankingApi.repository.AccountActivityRepository;
+import com.thecoalition.bankingApi.model.*;
+import com.thecoalition.bankingApi.repository.ActivityRepository;
 import com.thecoalition.bankingApi.repository.AccountRepository;
 import com.thecoalition.bankingApi.handler.exceptions.ResourceNotFoundException;
 import com.thecoalition.bankingApi.repository.CustomerRepository;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,9 +25,15 @@ public class AccountService {
     private CustomerRepository customerRepository;
 
     @Autowired
-    private AccountActivityService accountActivityService;
+    private ActivityService activityService;
     @Autowired
-    private AccountActivityRepository  accountActivityRepository;
+    private ActivityRepository activityRepository;
+    @Autowired
+    private WithdrawalService withdrawalService;
+    @Autowired
+    private DepositService depositService;
+
+
 
     private final org.slf4j.Logger logger = LoggerFactory.getLogger(AccountService.class);
 
@@ -78,9 +80,10 @@ public class AccountService {
             //saving account
             Account savedAccount = accountRepository.save(account);
 
+
             //creating and saving an activity for the account creation
-            AccountActivity createActivity = accountActivityService.createAccountActivity(savedAccount.getAccountId(), savedAccount.getBalance(),true);
-            accountActivityRepository.save(createActivity);
+//            AccountActivity createActivity = accountActivityService.createAccountActivity(savedAccount.getAccountId(), savedAccount.getBalance(),true);
+//            accountActivityRepository.save(createActivity);
 
             logger.info("account and activity were successfully Created");
             return savedAccount;

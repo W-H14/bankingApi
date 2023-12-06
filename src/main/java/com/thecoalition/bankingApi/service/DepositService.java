@@ -3,9 +3,10 @@ package com.thecoalition.bankingApi.service;
 import com.thecoalition.bankingApi.handler.exceptions.DepositNotFoundException;
 import com.thecoalition.bankingApi.handler.exceptions.ResourceNotFoundException;
 import com.thecoalition.bankingApi.model.Account;
+import com.thecoalition.bankingApi.model.Activity;
 import com.thecoalition.bankingApi.model.Deposit;
-import com.thecoalition.bankingApi.model.Withdrawal;
 import com.thecoalition.bankingApi.repository.AccountRepository;
+import com.thecoalition.bankingApi.repository.ActivityRepository;
 import com.thecoalition.bankingApi.repository.DepositRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,10 @@ public class DepositService {
 
     @Autowired
    private AccountRepository accountRepository;
+    @Autowired
+    private ActivityRepository activityRepository;
+
+
    private final Logger logger = LoggerFactory.getLogger(DepositService.class);
 
     //Create deposit
@@ -31,11 +36,14 @@ public class DepositService {
             Optional<Account> accountOptional = accountRepository.findById(payee_id);
             if (accountOptional.isPresent()) {
                 Account account = accountOptional.get();
-
+                Activity activity = new Activity();
                 Deposit newDeposit = new Deposit();
-                newDeposit.setAccount(account);
+                deposit.setAccount(account);
                 newDeposit.setAmount(deposit.getAmount());
-                return depositRepository.save(newDeposit);
+                activity.setDeposit(newDeposit);
+                depositRepository.save(deposit);
+                activityRepository.save(activity);
+                return deposit;
             } else {
                 logger.error("Error creating deposit: Account not found");
                 throw new DepositNotFoundException("Error creating deposit: Account not found");

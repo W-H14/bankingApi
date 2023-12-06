@@ -3,31 +3,30 @@ package com.thecoalition.bankingApi.service;
 import com.thecoalition.bankingApi.handler.exceptions.ResourceNotFoundException;
 import com.thecoalition.bankingApi.handler.exceptions.WithdrawalNotFoundException;
 import com.thecoalition.bankingApi.model.Account;
+import com.thecoalition.bankingApi.model.Activity;
 import com.thecoalition.bankingApi.model.Withdrawal;
 import com.thecoalition.bankingApi.repository.AccountRepository;
+import com.thecoalition.bankingApi.repository.ActivityRepository;
 import com.thecoalition.bankingApi.repository.WithdrawalRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 @Service
 public class WithdrawalService {
-
-    private final WithdrawalRepository withdrawalRepository;
+    @Autowired
+    private WithdrawalRepository withdrawalRepository;
 
     private final Logger logger = LoggerFactory.getLogger(WithdrawalService.class);
 
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
-    public WithdrawalService(WithdrawalRepository withdrawalRepository) {
-        this.withdrawalRepository = withdrawalRepository;
-    }
+    private ActivityRepository activityRepository;
 
     public Set<Withdrawal> getAllWithdrawalsForAccount(Long accountId) {
         Iterable<Withdrawal> withdrawals = withdrawalRepository.findAll();
@@ -54,9 +53,13 @@ public class WithdrawalService {
             var accountOptional = accountRepository.findById(accountId);
             if (accountOptional.isPresent()) {
                 Account account = accountOptional.get();
+                Activity activity = new Activity();
                 withdrawal.setAccount(account);
+                activity.setWithdrawal(withdrawal);
+                withdrawalRepository.save(withdrawal);
+                activityRepository.save(activity);
                 logger.info("Successfully created Withdrawal");
-                return withdrawalRepository.save(withdrawal);
+                return withdrawal;
             } else {
                 logger.error("Error creating withdrawal: Account not found");
                 throw new ResourceNotFoundException("Error creating withdrawal: Account not found");
