@@ -1,5 +1,6 @@
 package com.thecoalition.bankingApi.controller;
 
+import com.thecoalition.bankingApi.handler.exceptions.ResourceNotFoundException;
 import com.thecoalition.bankingApi.model.Account;
 import com.thecoalition.bankingApi.repository.AccountRepository;
 import com.thecoalition.bankingApi.response.AccountResponse;
@@ -11,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 @RestController
 public class AccountController {
 
@@ -87,6 +91,10 @@ public class AccountController {
      */
    @GetMapping("/customers/{customerId}/accounts")
     public ResponseEntity<?> getAllAccountsForCostumer(@PathVariable Long customerId){
-        return accountResponse.getAllAccountsForCostumer(customerId);
+       Iterable<Account> account = accountService.getAllAccountsForCostumer(customerId);
+       if (!account.iterator().hasNext()){
+           throw new ResourceNotFoundException("This Account is not Available");
+       }
+       return accountResponse.getAllAccountsForCostumer(customerId);
     }
 }

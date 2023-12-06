@@ -110,10 +110,11 @@ if (accountOptional.isPresent()) {
         throw new AccountNotFoundException("Error updating Account with id " + accountId );
     }
 }
-public Iterable<Account> getAllAccountsForCostumer(Long customer_id){
-       logger.info("Retrieved all accounts for customer successfully");
-        verifyCostumer(customer_id);
+public Iterable<Account> getAllAccountsForCostumer(Long customer_id) {
+    logger.info("Retrieved all accounts for customer successfully");
+    verifyCostumer(customer_id);
     return accountRepository.findByCustomer_Id(customer_id);
+
 
 
 }
