@@ -33,7 +33,7 @@ public class AccountController {
      * @param account
      * @return
      */
-    @PostMapping(value = "/costumers/{costumerId}/accounts")
+    @PostMapping(value = "/customers/{costumerId}/accounts")
     public ResponseEntity<?> createAccount(@PathVariable Long costumerId, @RequestBody Account account) {
        return new ResponseEntity<> (accountResponse.createAccount(costumerId, account), HttpStatus.CREATED);
 

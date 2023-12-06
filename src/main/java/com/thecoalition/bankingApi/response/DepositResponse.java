@@ -1,6 +1,7 @@
 package com.thecoalition.bankingApi.response;
 
 import com.thecoalition.bankingApi.dto.Body;
+import com.thecoalition.bankingApi.handler.exceptions.DepositNotFoundException;
 import com.thecoalition.bankingApi.model.Account;
 import com.thecoalition.bankingApi.model.Customer;
 import com.thecoalition.bankingApi.model.Deposit;
@@ -20,18 +21,18 @@ public class DepositResponse {
     @Autowired
     private AccountService accountService;
 
-    public ResponseEntity<?> createDeposit(Long payeeId, Deposit deposit) {
-        accountService.verifyCostumer(payeeId);
-        depositService.createDeposit(payeeId, deposit);
+    public ResponseEntity<?> createDeposit(Long accountId, Deposit deposit) {
+        accountService.verifyCostumer(accountId);
+        depositService.createDeposit(accountId, deposit);
         Body body = new Body();
         body.setData(deposit);
         body.setCode(HttpStatus.CREATED.value());
         body.setMessage("Created deposit and added it to the account");
         return new ResponseEntity<>(body, HttpStatus.CREATED);
     }
-    public ResponseEntity<?> getAllDeposit(Long payeeId) {
+    public ResponseEntity<?> getAllDeposit(Long accountId) {
         Body body = new Body();
-        body.setData(depositService.getAllDeposits(payeeId));
+        body.setData(depositService.getAllDeposits(accountId));
         body.setCode(HttpStatus.OK.value());
         body.setMessage("Success");
         return new ResponseEntity<>(body, HttpStatus.OK);
@@ -53,9 +54,9 @@ public class DepositResponse {
         return new ResponseEntity<>(body, HttpStatus.NO_CONTENT);
     }
 
-    public ResponseEntity<?> getDeposit(Long Id) {
+    public ResponseEntity<?> getDeposit(Long depositId) throws DepositNotFoundException {
         Body body = new Body();
-        body.setData(depositService.getDeposit(Id));
+        body.setData(depositService.getDeposit(depositId));
         body.setCode(HttpStatus.OK.value());
         body.setMessage("Success");
         return new ResponseEntity<>(body, HttpStatus.OK);
