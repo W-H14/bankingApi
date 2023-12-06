@@ -1,12 +1,16 @@
 package com.thecoalition.bankingApi.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Entity
 @Table(name = "customer")
 public class Customer {
+
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +21,10 @@ public class Customer {
     @NotBlank
     @Column(name = "first_name")
    private String firstName;
-
+    @Min(300)  // Minimum allowed credit score
+    @Max(850)  // Maximum allowed credit score
+    @Column(name = "credit_score")
+    private Integer creditScore;
     @NotBlank
     @Column(name = "last_name")
    private String lastName;
@@ -36,6 +43,14 @@ public class Customer {
         this.firstName = firstName;
         this.lastName = lastName;
         this.addresses = addresses;
+    }
+
+    public Integer getCreditScore() {
+        return creditScore;
+    }
+
+    public void setCreditScore(Integer creditScore) {
+        this.creditScore = creditScore;
     }
 
     public Long getId() {
