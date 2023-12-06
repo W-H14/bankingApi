@@ -2,11 +2,10 @@ package com.thecoalition.bankingApi.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "Deposit")
-public class Deposit  {
+public class Deposit {
 
     @ManyToOne
     @JoinColumn(name = "account_id")

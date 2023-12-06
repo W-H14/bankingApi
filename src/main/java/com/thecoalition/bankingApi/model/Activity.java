@@ -2,27 +2,24 @@ package com.thecoalition.bankingApi.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
-public class AccountActivity {
+public class Activity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "activity_id")
     private Long id;
 
-    @Column(name = "activity_date")
-    private Date activityDate;
-
-    @Column(name = "amount")
-    private Double amount;
-    @ManyToOne
-    @JoinColumn(name = "withdrawal_id")
+    @OneToOne
+    @JoinColumn(name = "withdrawalId")
     private Withdrawal withdrawal;
 
-    @ManyToOne
-    @JoinColumn(name = "deposit_id")
+    @OneToOne
+    @JoinColumn(name = "depositId")
     private Deposit deposit;
+
 
     public Long getId() {
         return id;
@@ -30,22 +27,6 @@ public class AccountActivity {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Date getActivityDate() {
-        return activityDate;
-    }
-
-    public void setActivityDate(Date activityDate) {
-        this.activityDate = activityDate;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
     }
 
     public Withdrawal getWithdrawal() {
@@ -64,16 +45,15 @@ public class AccountActivity {
         this.deposit = deposit;
     }
 
-    public AccountActivity() {
-    }
 
+
+    public Activity() {
+    }
 
     @Override
     public String toString() {
-        return "AccountActivity{" +
+        return "Activity{" +
                 "id=" + id +
-                ", activityDate=" + activityDate +
-                ", amount=" + amount +
                 ", withdrawal=" + withdrawal +
                 ", deposit=" + deposit +
                 '}';

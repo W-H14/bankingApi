@@ -136,10 +136,10 @@ public class BillService {
         return billRepository.findById(customer_Id);
     }
 
-    public Optional<Bill> getBillByAccount(Long account_id) {
+    public Iterable<Bill> getBillByAccount(Long account_id) {
         try {
             logger.info("Successfully retrieved bill by Account ID");
-            return billRepository.findById(account_id);
+            return billRepository.findAll();
         } catch (Exception e) {
             logger.error("Error fetching bills with id" + account_id, e);
             throw new BillNotFoundException("Error fetching bills with id" + account_id);

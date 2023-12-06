@@ -2,7 +2,6 @@ package com.thecoalition.bankingApi.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.io.Serializable;
 
 @Entity
 public class Withdrawal {

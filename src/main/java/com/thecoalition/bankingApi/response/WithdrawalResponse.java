@@ -3,6 +3,7 @@ package com.thecoalition.bankingApi.response;
 
 import com.thecoalition.bankingApi.handler.exceptions.WithdrawalNotFoundException;
 
+import com.thecoalition.bankingApi.repository.ActivityRepository;
 import com.thecoalition.bankingApi.service.AccountService;
 
 import org.springframework.beans.factory.annotation.Autowired;
