@@ -107,11 +107,8 @@ public class DepositService {
     //Delete
     public void deleteDeposit(Long depositId) throws DepositNotFoundException{
             logger.info("Attempting to delete Deposit by Id");
-
-
                 logger.info("Successfully deleted Deposit by Id");
                 depositRepository.deleteById(depositId);
-            }
     }
     //edit a deposit
     public Deposit editDeposit(Long depositId, Deposit deposit) {
@@ -124,6 +121,7 @@ public class DepositService {
         }
 
         Deposit d = tempDeposit.get();
+        d.setId(depositId);
         d.setStatus(deposit.getStatus());
         d.setDescription(deposit.getDescription());
         d.setAmount(deposit.getAmount());
