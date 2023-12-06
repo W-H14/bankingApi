@@ -91,16 +91,24 @@ public class WithdrawalService {
         throw new WithdrawalNotFoundException("Error fetching withdrawal with id: " + withdrawalId);
     }
 
-    public void deleteWithdrawal(Long withdrawalId) throws WithdrawalNotFoundException {
-        if (!withdrawalRepository.existsById(withdrawalId)) {
-            logger.error("This id does not exist in withdrawals");
-            throw new WithdrawalNotFoundException("This id does not exist in withdrawals");
-        }
+    public void deleteWithdrawal(Long withdrawalId) {
 
-        logger.info("Successfully deleted Withdraw");
-        withdrawalRepository.deleteById(withdrawalId);
+
+            Activity activity = activityRepository.findByWithdrawal_Id(withdrawalId);
+
+
+            if (activity != null) {
+                activity.setWithdrawal(null);
+                activityRepository.save(activity);
+            }
+
+
+            logger.info("Succesfully deleted withdrawal by ID");
+            withdrawalRepository.deleteById(withdrawalId);
+        }
     }
-}
+
+
 
 
 

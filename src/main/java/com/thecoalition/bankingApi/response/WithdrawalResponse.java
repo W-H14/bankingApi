@@ -67,7 +67,7 @@ public class WithdrawalResponse {
     }
 
 
-    public ResponseEntity<?> deleteWithdrawal(Long withdrawalId) throws WithdrawalNotFoundException {
+    public ResponseEntity<?> deleteWithdrawal(Long withdrawalId) {
         withdrawalService.deleteWithdrawal(withdrawalId);
         Body body = new Body();
         body.setCode(HttpStatus.NO_CONTENT.value());

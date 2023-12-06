@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface ActivityRepository extends CrudRepository<Activity, Long> {
     @Query("SELECT a FROM Activity a")
     Iterable<Activity> findAll();
+
+    Activity findByWithdrawal_Id(Long withdrawalId);
 }
