@@ -47,7 +47,6 @@ public class Bill {
 
     @ManyToOne
     @JoinColumn(name = "account_id")
-
     private Account account;
 
 

@@ -21,10 +21,11 @@ public class  BillResponse {
     CustomerService customerService;
 
     public ResponseEntity<?> getBillByAccount(Long accountId){
-        Optional<Bill> bill1 = billService.getBillByAccount(accountId);
+        Iterable<Bill> bill1 = billService.getBillByAccount(accountId);
 
         Body body = new Body();
-        body.setData(bill1);
+        body.setMessage("Bills for account " + accountId + " retrieved");
+        body.setData(billService.getBills());
         body.setCode(HttpStatus.OK.value());
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
@@ -32,7 +33,8 @@ public class  BillResponse {
         Optional<Bill> bill = billService.getBillById(billId);
 
         Body body = new Body();
-        body.setData(billId);
+        body.setData(bill.get());
+        body.setMessage("Bill with Id of " + billId + " Found");
         body.setCode(HttpStatus.OK.value());
         return new ResponseEntity<>(body,HttpStatus.OK);
 
@@ -41,7 +43,8 @@ public class  BillResponse {
         Optional<Bill> customer = billService.getAllCustomerBills(customerId);
 
         Body body = new Body();
-        body.setData(customer);
+        body.setData(customer.get());
+        body.setMessage("Bill for customer " + customerId + " returned");
         body.setCode(HttpStatus.OK.value());
         return new ResponseEntity<>(body,HttpStatus.OK);
     }
@@ -84,7 +87,8 @@ public class  BillResponse {
 
         Body body = new Body();
         body.setData(billId);
+        body.setMessage("Bill " + billId + " REMOVED");
         body.setCode(HttpStatus.NO_CONTENT.value());
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(body ,HttpStatus.NO_CONTENT);
     }
 }
