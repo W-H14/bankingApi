@@ -30,22 +30,46 @@ public class DepositService {
    private final Logger logger = LoggerFactory.getLogger(DepositService.class);
 
     //Create deposit
-    public Deposit createDeposit(Long payee_id, Deposit deposit) throws DepositNotFoundException{
-        logger.info("Deposit created ");
-        Optional<Account> accountOptional = accountRepository.findById(payee_id);
-        Activity activity = new Activity();
-        if(accountOptional.isEmpty()){
-            logger.error("Error creating deposit: Account not found");
-            throw new DepositNotFoundException("Error creating deposit: Account not found");
-        }
-        var account = accountOptional.get();
-        deposit.setAccount(account);
-        activity.setDeposit(deposit);
-        depositRepository.save(deposit);
-        activityRepository.save(activity);
 
-        return deposit;
-    }
+//        logger.info("Deposit created ");
+//        Optional<Account> accountOptional = accountRepository.findById(payee_id);
+//        Activity activity = new Activity();
+//        if(accountOptional.isEmpty()){
+//            logger.error("Error creating deposit: Account not found");
+//            throw new DepositNotFoundException("Error creating deposit: Account not found");
+//        }
+//        var account = accountOptional.get();
+//        deposit.setAccount(account);
+//        activity.setDeposit(deposit);
+//        depositRepository.save(deposit);
+//        activityRepository.save(activity);
+//
+//        return deposit;
+        public Deposit createDeposit(Long payee_id, Deposit deposit) throws DepositNotFoundException{
+//            logger.info("Deposit created ");
+//            Optional<Account> accountOptional = accountRepository.findById(payee_id);
+//            if(accountOptional.isEmpty()){
+//                logger.error("Error creating deposit: Account not found");
+//                throw new DepositNotFoundException("Error creating deposit: Account not found");
+//            }
+//            var account = accountOptional.get();
+//            return depositRepository.save(deposit);
+            logger.info("Deposit created ");
+            Optional<Account> accountOptional = accountRepository.findById(payee_id);
+            Activity activity = new Activity();
+            if(accountOptional.isEmpty()){
+                logger.error("Error creating deposit: Account not found");
+                throw new DepositNotFoundException("Error creating deposit: Account not found");
+            }
+            var account = accountOptional.get();
+            deposit.setAccount(account);
+            activity.setDeposit(deposit);
+            depositRepository.save(deposit);
+            activityRepository.save(activity);
+
+            return deposit;
+        }
+
 //         var account = accountOptional.get();
 //        deposit.setAccount(account);
 //        return depositRepository.save(deposit);
@@ -83,15 +107,8 @@ public class DepositService {
     //Delete
     public void deleteDeposit(Long depositId) throws DepositNotFoundException{
             logger.info("Attempting to delete Deposit by Id");
-
-            if (!depositRepository.existsById(depositId)) {
-                logger.error("This id does not exist in deposits");
-                throw new DepositNotFoundException("This id does not exist in deposits");
-            }else {
-
                 logger.info("Successfully deleted Deposit by Id");
                 depositRepository.deleteById(depositId);
-            }
     }
     //edit a deposit
     public Deposit editDeposit(Long depositId, Deposit deposit) {
@@ -104,6 +121,7 @@ public class DepositService {
         }
 
         Deposit d = tempDeposit.get();
+        d.setId(depositId);
         d.setStatus(deposit.getStatus());
         d.setDescription(deposit.getDescription());
         d.setAmount(deposit.getAmount());
